@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileLoader {
 	int nodesNumber;
@@ -14,6 +16,8 @@ public class FileLoader {
 	StringTokenizer st = null;
 	FileReader fr = null;
 	String line = "";
+	Pattern p = Pattern.compile("\\d+");
+	Matcher m;
 	
 	public int getNodesNumber()
 	{
@@ -37,6 +41,7 @@ public class FileLoader {
 				initialize();
 			while((line = br.readLine())!=null){
 				tokens = parseLine(line);
+				tokens = checkTokens(tokens);
 				placeTokens(tokens);
 				currentRow++;
 			}
@@ -77,5 +82,20 @@ public class FileLoader {
 	private void placeTokens(ArrayList<String> t)
 	{
 			dataArray.add(t);
+	}
+	
+	private ArrayList<String> checkTokens(ArrayList<String> tokens)
+	{
+		ArrayList<String> newArray = new ArrayList<>();;
+		for( String token : tokens){
+			m = p.matcher(token); 
+			while (m.find()) {
+				String s = m.group();
+				if(s.length()>3)
+					s = s.substring(0, 3);
+				newArray.add(s);
+			}
+		}
+		return newArray;
 	}
 }

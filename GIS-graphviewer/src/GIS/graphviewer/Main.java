@@ -9,16 +9,16 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		FileLoader fl = new FileLoader();
-		ArrayList<ArrayList<String>> nodeLinks;
-		ArrayList<ArrayList<String>> nodeCoordinates;
-		
-		nodeLinks = fl.loadFile("sampleGraph");
-		printDataMatrix(nodeLinks);
-		System.out.println(fl.getNodesNumber());
-		nodeCoordinates = fl.loadFile("sampleCoordinates");
-		printDataMatrix(nodeCoordinates);
-		System.out.println(fl.getNodesNumber());
+//		FileLoader fl = new FileLoader();
+//		ArrayList<ArrayList<String>> nodeLinks;
+//		ArrayList<ArrayList<String>> nodeCoordinates;
+//		
+//		nodeLinks = fl.loadFile("sampleGraph");
+//		printDataMatrix(nodeLinks);
+//		System.out.println(fl.getNodesNumber());
+//		nodeCoordinates = fl.loadFile("sampleCoordinates");
+//		printDataMatrix(nodeCoordinates);
+//		System.out.println(fl.getNodesNumber());
 		
 		
 	}
