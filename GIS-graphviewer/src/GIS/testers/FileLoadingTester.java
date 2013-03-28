@@ -18,21 +18,18 @@ public class FileLoadingTester {
 		String file1 = "TestFiles/sampleCorrectGraph";
 		System.out.println(file1);
 		nodeLinks = fl.loadFile(file1);
-		System.out.println(fl.getNodesNumber());
 		printDataMatrix(nodeLinks);
 		System.out.println();
 
 		String file2 = "TestFiles/sampleCorrectCoordinates";
 		System.out.println(file2);
 		nodeCoordinates = fl.loadFile(file2);
-		System.out.println(fl.getNodesNumber());
 		printDataMatrix(nodeCoordinates);
 		System.out.println();
 		
 		String file3 = "TestFiles/sampleIncorrectGraph";
 		System.out.println(file3);
 		nodeCoordinates = fl.loadFile(file3);
-		System.out.println(fl.getNodesNumber());
 		printDataMatrix(nodeCoordinates);
 		System.out.println();
 		
