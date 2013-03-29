@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 
 /**
@@ -76,8 +75,6 @@ public class View extends javax.swing.JFrame {
 
         showBtn.setText("Show graph");
         controlsPanel.add(showBtn);
-
-        algBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         controlsPanel.add(algBox);
 
         slider.setMaximum(1000);
@@ -331,5 +328,9 @@ public class View extends javax.swing.JFrame {
     public void closeWindow(){
         WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+    }
+    
+    public void drawGraph(){
+        //TODO
     }
 }
