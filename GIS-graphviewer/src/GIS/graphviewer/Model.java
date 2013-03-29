@@ -33,14 +33,16 @@ public class Model {
 		return nodes;
 	}
 	
-	public static void printDataMatrix(ArrayList<ArrayList<String>> g)
+	public static String matrixToString(ArrayList<ArrayList<String>> g)
 	{
+                String output = "";
 		for(ArrayList<String> row : g){
 			for(String s : row){
-				System.out.print(s + " ");
+				output += s + " ";
 			}
-			System.out.println();
+			output += View.LINE_END;
 		}
+                return output;
 	}
 	
 	private static ArrayList<ArrayList<String>> correctDataMatrix(ArrayList<ArrayList<String>> matrix)
