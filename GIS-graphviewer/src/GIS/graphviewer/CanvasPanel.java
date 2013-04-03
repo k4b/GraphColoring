@@ -36,7 +36,10 @@ public class CanvasPanel extends JPanel{
         calculateValues();
         g2d = (Graphics2D)g;
         
-        //Paint Graph Nodes
+        ArrayList<Integer> nodeCoordinates;
+        ArrayList<ArrayList<Integer>> nodesCoordinates = new ArrayList<>();
+        
+        //Drawing Graph
         if(model.getNeighboursMatrix()!=null && model.getCoordinatesMatrix()!=null){
             for(int i = 0; i<model.getNeighboursMatrix().size(); i++){
                 ArrayList<String> coordinates = model.getCoordinatesMatrix().get(i);
@@ -44,9 +47,14 @@ public class CanvasPanel extends JPanel{
                 int y = Integer.parseInt(coordinates.get(1));
                 int z = Integer.parseInt(coordinates.get(2));
 
-                drawNode((int)(x*xStep), (int)(y*yStep), (int)diameter);
+                nodeCoordinates = new ArrayList<>();
+                nodeCoordinates.add(x);
+                nodeCoordinates.add(y);
+                nodeCoordinates.add(z);
                 
-                //Paint links
+                
+                
+                //Drawing links
                 ArrayList<String> links = model.getNeighboursMatrix().get(i);
                 
                 for(int j = 0; j<links.size();j++){
@@ -55,12 +63,15 @@ public class CanvasPanel extends JPanel{
                         int xTo = Integer.parseInt(coordinatesTo.get(0));
                         int yTo = Integer.parseInt(coordinatesTo.get(1));
                         int zTo = Integer.parseInt(coordinatesTo.get(2));
-
+                        
                         drawLink(x*xStep, y*yStep, xTo*xStep, yTo*yStep);
                     }
                 }
-                
-                
+                nodesCoordinates.add(nodeCoordinates);
+            }
+            //Drawing nodes
+            for(ArrayList<Integer> coords : nodesCoordinates){
+                drawNode((int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter);
             }
         }
     }
@@ -75,10 +86,13 @@ public class CanvasPanel extends JPanel{
     
     private void drawNode(int x, int y, int diameter){
         Ellipse2D.Double circle = new Ellipse2D.Double(x, y, diameter, diameter);
+        g2d.setColor(Color.WHITE);
+        g2d.fill(circle);
+        g2d.setColor(Color.BLACK);
         g2d.draw(circle);
     }
     
-    private void drawLink(double xFrom, double yFrom, double xTo, double yTo){        
+    private void drawLink(double xFrom, double yFrom, double xTo, double yTo){
         g2d.draw(new Line2D.Double(xFrom+diameter/2, yFrom+diameter/2, xTo+diameter/2, yTo+diameter/2));
     }
 }
