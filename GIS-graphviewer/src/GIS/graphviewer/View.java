@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -22,6 +23,8 @@ public class View extends javax.swing.JFrame {
     public View(Model m) {
         model = m;
         initComponents();
+        DefaultCaret caret = (DefaultCaret)logger.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
 
     /**
