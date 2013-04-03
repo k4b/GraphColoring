@@ -3,7 +3,8 @@ package GIS.graphviewer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -42,26 +43,41 @@ public class Controller {
                 view.addSliderChangeListener(listener);
                 view.addBtnActionListener(view.getRunBtn(), listener);
                 view.addBtnActionListener(view.getExitBtn(), listener);
+                
+                //add comboBox content
+                ArrayList<String> list = new ArrayList<>();
+                for(String s : GraphColoring.ALGORITHMS){
+                    list.add(s);
+                }
+                view.getAlgBox().setModel(new DefaultComboBoxModel(GraphColoring.ALGORITHMS));
 	}
 	
 	public void loadNeighboursMatrix(String path)
 	{
 		model.setNeighboursMatrix(FileLoader.loadFile(path));
+                view.log("Graph loaded:" + View.LINE_END);
+                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
         
         public void loadNeighboursMatrix(File f)
 	{
 		model.setNeighboursMatrix(FileLoader.loadFile(f));
+                view.log("Graph loaded:" + View.LINE_END);
+                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
 	
 	public void loadCoordinatesMatrix(String path)
 	{
 		model.setCoordinatesMatrix(FileLoader.loadFile(path));
+                view.log("Coordinates loaded:" + View.LINE_END);
+                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         public void loadCoordinatesMatrix(File f)
 	{
 		model.setCoordinatesMatrix(FileLoader.loadFile(f));
+                view.log("Coordinates loaded:" + View.LINE_END);
+                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         /**
@@ -83,11 +99,11 @@ public class Controller {
                         file = fc.getSelectedFile();
                         loadNeighboursMatrix(file);
                         //This is where a real application would open the file.
-                        view.getLogger().append("Graph loaded:" + View.LINE_END);
+                        view.log("Graph loaded:" + View.LINE_END);
+                        view.log(Model.matrixToString(model.getNeighboursMatrix()));
                     } else {
-                        view.getLogger().append("Graph not loaded!" + View.LINE_END);
+                        view.log("Graph not loaded!" + View.LINE_END);
                     }
-                    view.getLogger().append(Model.matrixToString(model.getNeighboursMatrix()));
                 } else if (ae.getSource() == view.getLoadCoordBtn()){
                     fc = new JFileChooser();
                     returnVal = fc.showOpenDialog(view);
@@ -95,13 +111,13 @@ public class Controller {
                         file = fc.getSelectedFile();
                         loadCoordinatesMatrix(file);
                         //This is where a real application would open the file.
-                        view.getLogger().append("Coordinates loaded:" + View.LINE_END);
+                        view.log("Coordinates loaded:" + View.LINE_END);
+                        view.log(Model.matrixToString(model.getCoordinatesMatrix()));
                     } else {
-                        view.getLogger().append("Coordinates not loaded!" + View.LINE_END);
+                        view.log("Coordinates not loaded!" + View.LINE_END);
                     }
-                    view.getLogger().append(Model.matrixToString(model.getCoordinatesMatrix()));
                 } else if (ae.getSource() == view.getShowBtn()){
-                    //TODO malowanie grafu
+                    view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
                     //TODO wybor algorytmu
                 } else if (ae.getSource() == view.getRunBtn()){
