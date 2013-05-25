@@ -43,11 +43,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainPanel">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -65,7 +60,7 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="sidePanel" max="32767" attributes="0"/>
-                      <Component id="canvasPanel" max="32767" attributes="0"/>
+                      <Component id="canvasPanel" pref="801" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" pref="179" max="32767" attributes="0"/>
@@ -139,6 +134,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="algBox">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JComboBox(Coloring.ALGORITHM.values());&#xd;&#xa;"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JSlider" name="slider">
                   <Properties>
@@ -208,7 +206,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="800" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

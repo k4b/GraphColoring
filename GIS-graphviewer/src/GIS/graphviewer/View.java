@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
 
@@ -43,7 +44,8 @@ public class View extends javax.swing.JFrame {
         loadGraphBtn = new javax.swing.JButton();
         loadCoordBtn = new javax.swing.JButton();
         showBtn = new javax.swing.JButton();
-        algBox = new javax.swing.JComboBox();
+        algBox = new JComboBox(Coloring.ALGORITHM.values());
+        ;
         slider = new javax.swing.JSlider();
         runBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
@@ -53,8 +55,6 @@ public class View extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Graph coloring visualiser");
-
-        mainPanel.setBorder(null);
 
         sidePanel.setMaximumSize(new java.awt.Dimension(800, 800));
 
@@ -124,7 +124,7 @@ public class View extends javax.swing.JFrame {
         canvasPanel.setLayout(canvasPanelLayout);
         canvasPanelLayout.setHorizontalGroup(
             canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         canvasPanelLayout.setVerticalGroup(
             canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +146,7 @@ public class View extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
         );
@@ -326,6 +326,6 @@ public class View extends javax.swing.JFrame {
     }
     
     public void log(String s){
-        logger.append(s);
+        logger.append(s + "\n");
     }
 }

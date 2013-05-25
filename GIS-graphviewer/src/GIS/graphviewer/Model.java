@@ -1,5 +1,6 @@
 package GIS.graphviewer;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +10,32 @@ public class Model {
 	private ArrayList<ArrayList<String>> neighboursMatrix;
 	private ArrayList<ArrayList<String>> coordinatesMatrix;
 	private ArrayList<ArrayList<String>> colorsMatrix;
+        private ArrayList<ArrayList<Integer>> colorsIntegerMatrix;
+        private ArrayList<Integer> nodeColors;
 	private ArrayList<Node> nodes;
+        private ArrayList<Color> colors;
+        
+        public Model() {
+            colors = new ArrayList<>();
+            colors.add(Color.red);
+            colors.add(Color.yellow);
+            colors.add(Color.green);
+            colors.add(Color.orange);
+            colors.add(Color.pink);
+            colors.add(Color.gray);
+            colors.add(Color.cyan);
+            colors.add(Color.magenta);
+            colors.add(Color.blue);
+            colors.add(Color.lightGray);
+        }
+
+        public ArrayList<ArrayList<Integer>> getColorsIntegerMatrix() {
+            return colorsIntegerMatrix;
+        }
+
+        public void setColorsIntegerMatrix(ArrayList<ArrayList<Integer>> colorsIntegerMatrix) {
+            this.colorsIntegerMatrix = colorsIntegerMatrix;
+        }
 	
 	public ArrayList<ArrayList<String>> getNeighboursMatrix() {
 		return neighboursMatrix;
@@ -32,6 +58,22 @@ public class Model {
 	public ArrayList<Node> getNodes() {
 		return nodes;
 	}
+        
+        public ArrayList<Integer> getNodeColors() {
+            return nodeColors;
+        }
+
+        public void setNodeColors(ArrayList<Integer> colorsIntegerMatrix) {
+            this.nodeColors = colorsIntegerMatrix;
+        }
+
+        public ArrayList<Color> getColors() {
+            return colors;
+        }
+
+        public void setColors(ArrayList<Color> colors) {
+            this.colors = colors;
+        }
 	
 	public static String matrixToString(ArrayList<ArrayList<String>> g)
 	{
@@ -44,6 +86,39 @@ public class Model {
 		}
                 return output;
 	}
+        
+        public static String integerMatrixToString(ArrayList<ArrayList<Integer>> g)
+	{
+                String output = "";
+		for(ArrayList<Integer> row : g){
+			for(Integer s : row){
+				output += s.toString() + " ";
+			}
+			output += View.LINE_END;
+		}
+                return output;
+	}
+        
+        public static ArrayList<ArrayList<Integer>> convertStringToIntegerMatrix(ArrayList<ArrayList<String>> m) {
+            ArrayList<ArrayList<Integer>> output = new ArrayList<>();
+            for(ArrayList<String> stringsRow : m) {
+                ArrayList<Integer> row = new ArrayList<>();
+                for(String s : stringsRow) {
+                    Integer i = Integer.parseInt(s);
+                    row.add(i);
+                }
+                output.add(row);
+            }
+            return output;
+        }
+        
+        public static String arrayListToString(ArrayList<Integer> a) {
+            String s = "";
+            for(Integer i : a) {
+                s += i.toString() + " ";
+            }
+            return s;
+        }
 	
 	private static ArrayList<ArrayList<String>> correctDataMatrix(ArrayList<ArrayList<String>> matrix)
 	{

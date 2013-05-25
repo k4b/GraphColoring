@@ -1,9 +1,12 @@
 package GIS.graphviewer;
 
+import GIS.graphviewer.Coloring.ALGORITHM;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JSlider;
@@ -12,7 +15,8 @@ import javax.swing.event.ChangeListener;
 
 public class Controller {
     
-	private int interval = 1000;
+	private int interval;
+        private String algorithm;
 	private Model model;
         private View view;
 	
@@ -33,6 +37,9 @@ public class Controller {
 	{
 		model = m;
                 view = v;
+                ALGORITHM[] algorithms = Coloring.ALGORITHM.values();
+                algorithm = algorithms[0].toString();
+                interval = view.getSlider().getValue();
                 
                 // add listeners to the view
                 ControlsActionListener listener = new ControlsActionListener();
@@ -43,13 +50,6 @@ public class Controller {
                 view.addSliderChangeListener(listener);
                 view.addBtnActionListener(view.getRunBtn(), listener);
                 view.addBtnActionListener(view.getExitBtn(), listener);
-                
-                //add comboBox content
-                ArrayList<String> list = new ArrayList<>();
-                for(String s : GraphColoring.ALGORITHMS){
-                    list.add(s);
-                }
-                view.getAlgBox().setModel(new DefaultComboBoxModel(GraphColoring.ALGORITHMS));
 	}
 	
 	public void loadNeighboursMatrix(String path)
@@ -119,9 +119,11 @@ public class Controller {
                 } else if (ae.getSource() == view.getShowBtn()){
                     view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
-                    //TODO wybor algorytmu
+                    algorithm = view.getAlgBox().getSelectedItem().toString();
+                    model.setNodeColors(null);
+                    view.repaint();
                 } else if (ae.getSource() == view.getRunBtn()){
-                    //TODO uruchamianie animacji
+                    run(algorithm, interval);
                 } else if (ae.getSource() == view.getExitBtn()){
                     view.closeWindow();
                 }
@@ -142,6 +144,17 @@ public class Controller {
 //                }
             }
         }
-
+        
+        private void run(String alg, int interval) {
+            view.log("Coloring with " + alg + " algorithm" + " and " + interval + " interval" + "\n");
+            ArrayList<ArrayList<Integer>> colorsMatrix;
+            ArrayList<ArrayList<String>> nM = model.getNeighboursMatrix();
+            ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
+            colorsMatrix = Coloring.DSATUR(neighboursMatrix);
+            model.setColorsIntegerMatrix(colorsMatrix);
+            System.out.println("kolory:");
+            System.out.println(Coloring.macierzToString(colorsMatrix));
+            view.repaint();
         }
+    }
 }
