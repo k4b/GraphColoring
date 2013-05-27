@@ -6,6 +6,7 @@ package GIS.graphviewer;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -70,21 +71,7 @@ public class CanvasPanel extends JPanel{
                 nodesCoordinates.add(nodeCoordinates);
             }
             //Drawing nodes
-            int nodeID = 0;
-            ArrayList<Integer> nodeColors = model.getNodeColors();
-            if(nodeColors!=null && nodeColors.size()>0) {
-                for(ArrayList<Integer> coords : nodesCoordinates){
-                    drawNode((int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, 
-                            model.getColors().get(nodeColors.get(nodeID)));
-                    
-                    nodeID++;
-                }
-            } else {
-                for(ArrayList<Integer> coords : nodesCoordinates){
-                    nodeID++;
-                    drawNode((int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, Color.white);
-                }
-            }
+            drawNodes(nodesCoordinates);
         }
     }
     
@@ -96,12 +83,40 @@ public class CanvasPanel extends JPanel{
         diameter = xStep*60;
     }
     
-    private void drawNode(int x, int y, int diameter, Color background){
+    private void drawNodes(ArrayList<ArrayList<Integer>> nodesCoordinates) {
+        int nodeID = 0;
+            ArrayList<Integer> nodeColors = model.getCurrentColors();
+            if(nodeColors!=null && nodeColors.size()>0) {
+                for(ArrayList<Integer> coords : nodesCoordinates){
+                    drawNode(""+(nodeID+1), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, 
+                            model.getColors().get(nodeColors.get(nodeID)));
+                    
+                    nodeID++;
+                }
+            } else {
+                for(ArrayList<Integer> coords : nodesCoordinates){
+                    drawNode(""+(nodeID+1), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, Color.white);
+                    nodeID++;
+                }
+            }
+    }
+    
+    private void drawNode(String id, int x, int y, int diameter, Color background){
         Ellipse2D.Double circle = new Ellipse2D.Double(x, y, diameter, diameter);
         g2d.setColor(background);
         g2d.fill(circle);
         g2d.setColor(Color.BLACK);
         g2d.draw(circle);
+        drawCenteredString(id, g2d, x, y, diameter);
+    }
+    
+    private void drawCenteredString(String id, Graphics g, int x, int y, int diameter) {
+        FontMetrics fm = g.getFontMetrics();
+        int totalWidth = (fm.stringWidth(id)*2) + 4;
+        
+        x += (int)diameter/2 - fm.stringWidth(id)/2;
+        y = y + diameter/2 + fm.getAscent()/2;
+        g.drawString(id, x, y);        
     }
     
     private void drawLink(double xFrom, double yFrom, double xTo, double yTo){

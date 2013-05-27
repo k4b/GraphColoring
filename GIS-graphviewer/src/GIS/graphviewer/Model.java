@@ -11,13 +11,13 @@ public class Model {
 	private ArrayList<ArrayList<String>> coordinatesMatrix;
 	private ArrayList<ArrayList<String>> colorsMatrix;
         private ArrayList<ArrayList<Integer>> colorsIntegerMatrix;
-        private ArrayList<Integer> nodeColors;
+        private ArrayList<Integer> currentColors;
 	private ArrayList<Node> nodes;
         private ArrayList<Color> colors;
         
         public Model() {
             colors = new ArrayList<>();
-            colors.add(Color.red);
+            colors.add(Color.white);
             colors.add(Color.yellow);
             colors.add(Color.green);
             colors.add(Color.orange);
@@ -59,12 +59,12 @@ public class Model {
 		return nodes;
 	}
         
-        public ArrayList<Integer> getNodeColors() {
-            return nodeColors;
+        public ArrayList<Integer> getCurrentColors() {
+            return currentColors;
         }
 
-        public void setNodeColors(ArrayList<Integer> colorsIntegerMatrix) {
-            this.nodeColors = colorsIntegerMatrix;
+        public void setCurrentColors(ArrayList<Integer> colorsIntegerMatrix) {
+            this.currentColors = colorsIntegerMatrix;
         }
 
         public ArrayList<Color> getColors() {

@@ -4,6 +4,7 @@
  */
 package GIS.graphviewer;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -26,6 +27,8 @@ public class View extends javax.swing.JFrame {
         initComponents();
         DefaultCaret caret = (DefaultCaret)logger.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        Dimension dim = new Dimension(logger.getWidth(), (int)(0.15*this.getHeight()));
+        logger.setMinimumSize(dim);
     }
 
     /**
@@ -113,6 +116,7 @@ public class View extends javax.swing.JFrame {
         logger.setColumns(20);
         logger.setRows(5);
         logger.setBorder(null);
+        logger.setMinimumSize(new java.awt.Dimension(100, 60));
         jScrollPane1.setViewportView(logger);
 
         canvasPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("white"));

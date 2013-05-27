@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JSlider;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,6 +20,7 @@ public class Controller {
         private String algorithm;
 	private Model model;
         private View view;
+        Timer animationTimer;
 	
 	public int getInterval() {
 		return interval;
@@ -120,41 +122,60 @@ public class Controller {
                     view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
-                    model.setNodeColors(null);
+                    model.setCurrentColors(null);
                     view.repaint();
                 } else if (ae.getSource() == view.getRunBtn()){
-                    run(algorithm, interval);
+                    run(algorithm, interval*5);
                 } else if (ae.getSource() == view.getExitBtn()){
                     view.closeWindow();
                 }
             }
 
-        @Override
-        public void stateChanged(ChangeEvent ce) {
-            JSlider source = (JSlider)ce.getSource();
-            if (!source.getValueIsAdjusting()) {
-                interval = (int)source.getValue();
-//                if (fps == 0) {
-//                    if (!frozen) stopAnimation();
-//                } else {
-//                    delay = 1000 / fps;
-//                    timer.setDelay(delay);
-//                    timer.setInitialDelay(delay * 10);
-//                    if (frozen) startAnimation();
-//                }
+            @Override
+            public void stateChanged(ChangeEvent ce) {
+                JSlider source = (JSlider)ce.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    interval = (int)source.getValue();
+                }
+            }
+        
+            private void run(String alg, int interval) {
+                view.log("Coloring with " + alg + " algorithm" + " and " + interval + " ms interval" + "\n");
+                ArrayList<ArrayList<Integer>> colorsMatrix;
+                ArrayList<ArrayList<String>> nM = model.getNeighboursMatrix();
+                ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
+                colorsMatrix = Coloring.DSATUR(neighboursMatrix);
+                model.setColorsIntegerMatrix(colorsMatrix);
+                System.out.println("kolory:");
+                System.out.println(Coloring.macierzToString(colorsMatrix));
+
+                animationTimer = new Timer(interval, new AnimationActionListener());
+                animationTimer.setInitialDelay(0);
+                animationTimer.start();
+                
             }
         }
         
-        private void run(String alg, int interval) {
-            view.log("Coloring with " + alg + " algorithm" + " and " + interval + " interval" + "\n");
-            ArrayList<ArrayList<Integer>> colorsMatrix;
-            ArrayList<ArrayList<String>> nM = model.getNeighboursMatrix();
-            ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
-            colorsMatrix = Coloring.DSATUR(neighboursMatrix);
-            model.setColorsIntegerMatrix(colorsMatrix);
-            System.out.println("kolory:");
-            System.out.println(Coloring.macierzToString(colorsMatrix));
-            view.repaint();
+        public class AnimationActionListener implements ActionListener {
+            private int counter = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(counter < model.getColorsIntegerMatrix().size()) {
+                    setCurrentColors();;
+                    view.drawGraph();
+                    counter++;
+                } else {
+                    animationTimer.stop();
+                }
+            }
+            
+            private void setCurrentColors() {
+                ArrayList<Integer> colors = model.getColorsIntegerMatrix().get(counter);
+                model.setCurrentColors(colors);
+                System.out.println("Current colors:");
+                System.out.println(model.arrayListToString(colors));
+            }
+            
         }
-    }
 }
