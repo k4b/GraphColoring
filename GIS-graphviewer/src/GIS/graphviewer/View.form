@@ -107,16 +107,6 @@
                     <Property name="text" type="java.lang.String" value="Load graph"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="loadCoordBtn">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Load Coordinates"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="showBtn">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Show graph"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JComboBox" name="algBox">
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JComboBox(Coloring.ALGORITHM.values());&#xd;&#xa;"/>
@@ -139,6 +129,11 @@
                     <Property name="text" type="java.lang.String" value="Run"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JButton" name="saveBtn">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Save colors matrix"/>
+                  </Properties>
+                </Component>
                 <Component class="javax.swing.JButton" name="exitBtn">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Exit"/>
@@ -152,6 +147,11 @@
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" id="white" palette="3" red="ff" type="palette"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[1000, 1000]"/>
@@ -170,7 +170,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="800" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="798" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

@@ -32,9 +32,9 @@ public class Main {
             Controller controller = new Controller(model, view);
             
             String file1 = "TestFiles/sampleCorrectGraph";
-            controller.loadNeighboursMatrix(file1);
+            model.setNeighboursMatrix(controller.loadNeighboursMatrix(file1));
             String file2 = "TestFiles/sampleCorrectCoordinates";
-            controller.loadCoordinatesMatrix(file2);
+            model.setCoordinatesMatrix(controller.loadCoordinatesMatrix(file2));
 
             /* Create and display the form */
             java.awt.EventQueue.invokeLater(new Runnable() {

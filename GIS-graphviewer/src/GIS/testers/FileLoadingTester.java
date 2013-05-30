@@ -2,7 +2,7 @@ package GIS.testers;
 
 import java.util.ArrayList;
 
-import GIS.graphviewer.FileLoader;
+import GIS.graphviewer.FileUtility;
 
 public class FileLoadingTester {
 
@@ -11,7 +11,7 @@ public class FileLoadingTester {
 	 */
 	public static void main(String[] args) {
 		
-		FileLoader fl = new FileLoader();
+		FileUtility fl = new FileUtility();
 		ArrayList<ArrayList<String>> nodeLinks;
 		ArrayList<ArrayList<String>> nodeCoordinates;
 		

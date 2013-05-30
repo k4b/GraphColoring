@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileLoader {
+public class FileUtility {
 
 	public static ArrayList<ArrayList<String>> loadFile(String path)
 	{
@@ -95,4 +96,10 @@ public class FileLoader {
 		
 		return tokens;
 	}
+        
+        public static void saveFile(File f, String s) throws FileNotFoundException {
+            PrintWriter out = new PrintWriter(f);
+            out.println(s);
+            out.close();
+        }
 }

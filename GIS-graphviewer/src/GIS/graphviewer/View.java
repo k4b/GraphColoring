@@ -54,12 +54,11 @@ public class View extends javax.swing.JFrame {
         paramsPanel = new JPanel(new CardLayout());
         controlsPanel = new javax.swing.JPanel();
         loadGraphBtn = new javax.swing.JButton();
-        loadCoordBtn = new javax.swing.JButton();
-        showBtn = new javax.swing.JButton();
         algBox = new JComboBox(Coloring.ALGORITHM.values());
         ;
         slider = new javax.swing.JSlider();
         runBtn = new javax.swing.JButton();
+        saveBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
         canvasPanel = new CanvasPanel(model);
 
@@ -74,12 +73,6 @@ public class View extends javax.swing.JFrame {
 
         loadGraphBtn.setText("Load graph");
         controlsPanel.add(loadGraphBtn);
-
-        loadCoordBtn.setText("Load Coordinates");
-        controlsPanel.add(loadCoordBtn);
-
-        showBtn.setText("Show graph");
-        controlsPanel.add(showBtn);
         controlsPanel.add(algBox);
 
         slider.setMaximum(1000);
@@ -90,6 +83,9 @@ public class View extends javax.swing.JFrame {
 
         runBtn.setText("Run");
         controlsPanel.add(runBtn);
+
+        saveBtn.setText("Save colors matrix");
+        controlsPanel.add(saveBtn);
 
         exitBtn.setText("Exit");
         controlsPanel.add(exitBtn);
@@ -110,6 +106,7 @@ public class View extends javax.swing.JFrame {
         );
 
         canvasPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("white"));
+        canvasPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         canvasPanel.setMaximumSize(new java.awt.Dimension(1000, 1000));
         canvasPanel.setMinimumSize(new java.awt.Dimension(600, 600));
         canvasPanel.setPreferredSize(new java.awt.Dimension(600, 600));
@@ -118,7 +115,7 @@ public class View extends javax.swing.JFrame {
         canvasPanel.setLayout(canvasPanelLayout);
         canvasPanelLayout.setHorizontalGroup(
             canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 798, Short.MAX_VALUE)
         );
         canvasPanelLayout.setVerticalGroup(
             canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,12 +162,11 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel canvasPanel;
     private javax.swing.JPanel controlsPanel;
     private javax.swing.JButton exitBtn;
-    private javax.swing.JButton loadCoordBtn;
     private javax.swing.JButton loadGraphBtn;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel paramsPanel;
     private javax.swing.JButton runBtn;
-    private javax.swing.JButton showBtn;
+    private javax.swing.JButton saveBtn;
     private javax.swing.JPanel sidePanel;
     private javax.swing.JSlider slider;
     // End of variables declaration//GEN-END:variables
@@ -212,13 +208,6 @@ public class View extends javax.swing.JFrame {
      */
     public javax.swing.JSlider getSlider() {
         return slider;
-    }
-
-    /**
-     * @return the loadCoordBtn
-     */
-    public javax.swing.JButton getLoadCoordBtn() {
-        return loadCoordBtn;
     }
 
     /**
@@ -266,8 +255,8 @@ public class View extends javax.swing.JFrame {
     /**
      * @return the showBtn
      */
-    public javax.swing.JButton getShowBtn() {
-        return showBtn;
+    public javax.swing.JButton getSaveBtn() {
+        return saveBtn;
     }
 
     /**

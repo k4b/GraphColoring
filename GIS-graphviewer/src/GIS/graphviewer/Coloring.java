@@ -121,6 +121,7 @@ public class Coloring
 		int maxStopien;
 		int maxNasycenie;
                 ArrayList<DSATURInfoItem> infos = new ArrayList<>();
+                ArrayList<Integer> zeros = new ArrayList<>();
                 
 //		for (int i=0; i<N; i++) //tyle iteracji ile wierzcholkow
 		while(koloryWierzcholkow.get(koloryWierzcholkow.size()-1).contains(0))  //jak zostaly wierzcholki bez krawedzi, to pokoloruj je wszystkie w jednym kroku
@@ -160,6 +161,7 @@ public class Coloring
                                 if (maxNasycenie < nasycenieWierzcholkow.get(k))		//TODO wybierz o najwiekszym nasyceniu wierzcholkowym
                                         maxNasycenie = nasycenieWierzcholkow.get(k);
                             }
+                            zeros.add(0);
 			}
 			for (int k=0; k<N; k++)
 			{
@@ -218,6 +220,8 @@ public class Coloring
 			iteracja ++;
 //			System.out.println(tablicaKolorow.size());
 		}
+                koloryWierzcholkow.add(0, zeros);
+                infos.add(new DSATURInfoItem());
                 return infos;
 	}
 
@@ -264,7 +268,7 @@ public class Coloring
 		ArrayList<Integer> zbiorW_U = new ArrayList<Integer>();
                 ArrayList<RLFInfoItem> infos = new ArrayList<>();
                 ArrayList<ArrayList<Integer>> myColors = new ArrayList<>();
-                
+                ArrayList<Integer> zeros = new ArrayList<>();
                 ArrayList<Integer> currentColors = new ArrayList<>();
 		
 		int kolor = 1;
@@ -272,6 +276,7 @@ public class Coloring
 			{
 			zbiorW.add(i, i);
                         currentColors.add(0);
+                        zeros.add(0);
 			}
 		
 		while (!zbiorW.isEmpty())
@@ -392,7 +397,9 @@ public class Coloring
                 System.out.println("MyColors");
                 System.out.println(Model.integerMatrixToString(myColors));
                 koloryWierzcholkow.clear();
+                koloryWierzcholkow.add(zeros);
                 koloryWierzcholkow.addAll(myColors);
+                infos.add(new RLFInfoItem());
                 return infos;
 	}
 

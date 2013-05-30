@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,40 +61,43 @@ public class Controller {
                 // add listeners to the view
                 ControlsActionListener listener = new ControlsActionListener();
                 view.addBtnActionListener(view.getLoadGraphBtn(), listener);
-                view.addBtnActionListener(view.getLoadCoordBtn(), listener);
-                view.addBtnActionListener(view.getShowBtn(), listener);
+                view.addBtnActionListener(view.getSaveBtn(), listener);
                 view.addAlgBoxActionListener(listener);
                 view.addSliderChangeListener(listener);
                 view.addBtnActionListener(view.getRunBtn(), listener);
                 view.addBtnActionListener(view.getExitBtn(), listener);
 	}
 	
-	public void loadNeighboursMatrix(String path)
+	public ArrayList<ArrayList<String>> loadNeighboursMatrix(String path)
 	{
-		model.setNeighboursMatrix(FileLoader.loadFile(path));
-                view.log("Graph loaded:" + View.LINE_END);
-                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
+            return FileUtility.loadFile(path);
+//		model.setNeighboursMatrix(FileUtility.loadFile(path));
+//                view.log("Graph loaded:" + View.LINE_END);
+//                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
         
-        public void loadNeighboursMatrix(File f)
+        public ArrayList<ArrayList<String>> loadNeighboursMatrix(File f)
 	{
-		model.setNeighboursMatrix(FileLoader.loadFile(f));
-                view.log("Graph loaded:" + View.LINE_END);
-                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
+            return FileUtility.loadFile(f);
+//		model.setNeighboursMatrix(FileUtility.loadFile(f));
+//                view.log("Graph loaded:" + View.LINE_END);
+//                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
 	
-	public void loadCoordinatesMatrix(String path)
+	public ArrayList<ArrayList<String>> loadCoordinatesMatrix(String path)
 	{
-		model.setCoordinatesMatrix(FileLoader.loadFile(path));
-                view.log("Coordinates loaded:" + View.LINE_END);
-                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
+            return FileUtility.loadFile(path);
+//		model.setCoordinatesMatrix(FileUtility.loadFile(path));
+//                view.log("Coordinates loaded:" + View.LINE_END);
+//                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
-        public void loadCoordinatesMatrix(File f)
+        public ArrayList<ArrayList<String>> loadCoordinatesMatrix(File f)
 	{
-		model.setCoordinatesMatrix(FileLoader.loadFile(f));
-                view.log("Coordinates loaded:" + View.LINE_END);
-                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
+            return FileUtility.loadFile(f);
+//		model.setCoordinatesMatrix(FileUtility.loadFile(f));
+//                view.log("Coordinates loaded:" + View.LINE_END);
+//                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         /**
@@ -109,33 +113,74 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 //handle load graph
+                ArrayList<ArrayList<String>> neighbours;
+                ArrayList<ArrayList<String>> coordinates;
                 if(ae.getSource() == view.getLoadGraphBtn()){
                     fc = new JFileChooser();
+                    fc.setDialogTitle("Load Neighbourhood Matrix");
                     returnVal = fc.showOpenDialog(view);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         file = fc.getSelectedFile();
-                        loadNeighboursMatrix(file);
-                        //This is where a real application would open the file.
-                        view.log("Graph loaded:" + View.LINE_END);
-                        view.log(Model.matrixToString(model.getNeighboursMatrix()));
+                        neighbours = loadNeighboursMatrix(file);
+                        
+                        //coordinates
+                        fc = new JFileChooser();
+                        fc.setDialogTitle("Load Coordinates Matrix");
+                        returnVal = fc.showOpenDialog(view);
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            file = fc.getSelectedFile();
+                            coordinates = loadCoordinatesMatrix(file);
+                            
+                            // draw graph
+                            model.setNeighboursMatrix(neighbours);
+                            model.setCoordinatesMatrix(coordinates);
+                            model.setCurrentColors(null);
+                            model.setColorsIntegerMatrix(null);
+                            model.setDSATURinfos(null);
+                            model.setRLFinfos(null);
+                            view.drawGraph();
+                        } else {
+                            System.out.println("Coordinates not loaded!" + View.LINE_END);
+                        }
                     } else {
-                        view.log("Graph not loaded!" + View.LINE_END);
+                        System.out.println("Graph not loaded!" + View.LINE_END);
                     }
-                } else if (ae.getSource() == view.getLoadCoordBtn()){
-                    fc = new JFileChooser();
-                    returnVal = fc.showOpenDialog(view);
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        file = fc.getSelectedFile();
-                        loadCoordinatesMatrix(file);
-                        //This is where a real application would open the file.
-                        view.log("Coordinates loaded:" + View.LINE_END);
-                        view.log(Model.matrixToString(model.getCoordinatesMatrix()));
-                    } else {
-                        view.log("Coordinates not loaded!" + View.LINE_END);
+//                } else if (ae.getSource() == view.getLoadCoordBtn()){
+//                    fc = new JFileChooser();
+//                    returnVal = fc.showOpenDialog(view);
+//                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+//                        file = fc.getSelectedFile();
+//                        loadCoordinatesMatrix(file);
+//                        //This is where a real application would open the file.
+//                        view.log("Coordinates loaded:" + View.LINE_END);
+//                        view.log(Model.matrixToString(model.getCoordinatesMatrix()));
+//                    } else {
+//                        view.log("Coordinates not loaded!" + View.LINE_END);
+//                    }
+//                } else if (ae.getSource() == view.getSaveBtn()){
+//                    model.setCurrentColors(null);
+//                    view.drawGraph();
+                } else if (ae.getSource() == view.getSaveBtn()){
+                    ArrayList<ArrayList<Integer>> colorsMatrix = model.getColorsIntegerMatrix();
+                        if(colorsMatrix != null && colorsMatrix.size()>0) {
+                        fc = new JFileChooser();
+                        fc.setDialogTitle("Save colors matrix");
+                        returnVal = fc.showSaveDialog(view);
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            file = fc.getSelectedFile();
+
+                            String content = Model.arrayListToString(colorsMatrix.get(colorsMatrix.size()-1));
+                            System.out.println(content);
+                            try {
+                                FileUtility.saveFile(file, content);
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("File not saved!");
+                                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                                System.out.println("Colors not saved!" + View.LINE_END);
+                        }
                     }
-                } else if (ae.getSource() == view.getShowBtn()){
-                    model.setCurrentColors(null);
-                    view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
                     CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
