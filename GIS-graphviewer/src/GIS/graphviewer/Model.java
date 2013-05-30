@@ -14,6 +14,7 @@ public class Model {
         private ArrayList<Integer> currentColors;
 	private ArrayList<Node> nodes;
         private ArrayList<Color> colors;
+        private ArrayList<DSATURInfoItem> DSATURinfos;
         
         public Model() {
             colors = new ArrayList<>();
@@ -74,6 +75,14 @@ public class Model {
         public void setColors(ArrayList<Color> colors) {
             this.colors = colors;
         }
+        
+        public ArrayList<DSATURInfoItem> getDSATURinfos() {
+            return DSATURinfos;
+        }
+
+        public void setDSATURinfos(ArrayList<DSATURInfoItem> DSATURinfos) {
+            this.DSATURinfos = DSATURinfos;
+        }   
 	
 	public static String matrixToString(ArrayList<ArrayList<String>> g)
 	{
@@ -141,4 +150,6 @@ public class Model {
 		}
 		return newMatrix;
 	}
+
+    
 }

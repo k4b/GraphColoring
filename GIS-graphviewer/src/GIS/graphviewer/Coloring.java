@@ -12,47 +12,49 @@ public class Coloring
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args)
-	{
-            int N = 9;  			 // liczba wierzchołkow
-            ArrayList<ArrayList<Integer>> macierzSasiedztwa = new ArrayList<ArrayList<Integer>>();
-            ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
-            /******************************************************************/
-            generujMacierzSasiedztwa(macierzSasiedztwa, N);
-            koloryWierzcholkow = DSATUR(macierzSasiedztwa);
-//                koloryWierzcholkow = RLF(macierzSasiedztwa);
-            System.out.println(macierzSasiedztwa.size());
-            System.out.println(macierzToString(macierzSasiedztwa));
-            System.out.println(koloryToString(koloryWierzcholkow));
-//            ALGORITHM[] a = Coloring.ALGORITHM.values();
-//            System.out.println(a[0].toString() + " " + a[1].toString());
-	}
+//	public static void main(String[] args)
+//	{
+//            int N = 9;  			 // liczba wierzchołkow
+//            ArrayList<ArrayList<Integer>> macierzSasiedztwa = new ArrayList<ArrayList<Integer>>();
+//            ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
+//            /******************************************************************/
+//            generujMacierzSasiedztwa(macierzSasiedztwa, N);
+//            koloryWierzcholkow = DSATUR(macierzSasiedztwa).getNodeColors();
+////                koloryWierzcholkow = RLF(macierzSasiedztwa);
+//            System.out.println(macierzSasiedztwa.size());
+//            System.out.println(macierzToString(macierzSasiedztwa));
+//            System.out.println(koloryToString(koloryWierzcholkow));
+////            ALGORITHM[] a = Coloring.ALGORITHM.values();
+////            System.out.println(a[0].toString() + " " + a[1].toString());
+//	}
         
-        public static ArrayList<ArrayList<Integer>> DSATUR(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
+        public static DSATUROutput DSATUR(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
             int N = macierzSasiedztwa.size();
             ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
             ArrayList<Integer> stopnieWierzcholkow = new ArrayList<Integer>();
             ArrayList<Integer> nasycenieWierzcholkow = new ArrayList<Integer>();
-            ArrayList<Integer> wiersz2 = new ArrayList<Integer>();
+            ArrayList<Integer> koloryJednejIteracji = new ArrayList<Integer>();
+            ArrayList<DSATURInfoItem> infos;
 
             obliczStopnieWierzcholkow(macierzSasiedztwa, stopnieWierzcholkow, N);		
 
-            System.out.println("Stopnie wierzchołkow to: " + stopnieWierzcholkow.toString());
-            System.out.println();
+            
+            
             //metoda wyczysc
             koloryWierzcholkow.clear();
             nasycenieWierzcholkow.clear();
             for (int i=0; i<N; i++) 
             {
-                    wiersz2.add(i,0);				 //zerowe kolory poczatkowe
+                    koloryJednejIteracji.add(i,0);				 //zerowe koloryJednejIteracji poczatkowe
                     nasycenieWierzcholkow.add(i,0); //zerowe nasycenie poczatkowe
             }
-            koloryWierzcholkow.add(wiersz2);	
+            koloryWierzcholkow.add(koloryJednejIteracji);	
             
-            kolorujDSATUR(N, macierzSasiedztwa, koloryWierzcholkow,
+            infos = kolorujDSATUR(N, macierzSasiedztwa, koloryWierzcholkow,
 				stopnieWierzcholkow, nasycenieWierzcholkow);
             
-            return koloryWierzcholkow;
+            DSATUROutput dso = new DSATUROutput(koloryWierzcholkow, infos);
+            return dso;
         }
         
         private static String koloryToString(ArrayList<ArrayList<Integer>> a) {
@@ -109,7 +111,7 @@ public class Coloring
 	}
 
 
-	private static void kolorujDSATUR(int N,
+	private static ArrayList<DSATURInfoItem> kolorujDSATUR(int N,
 			ArrayList<ArrayList<Integer>> macierzSasiedztwa,
 			ArrayList<ArrayList<Integer>> koloryWierzcholkow,
 			ArrayList<Integer> stopnieWierzcholkow,
@@ -118,16 +120,21 @@ public class Coloring
 		int iteracja=0;
 		int maxStopien;
 		int maxNasycenie;
+                ArrayList<DSATURInfoItem> infos = new ArrayList<>();
+                
 //		for (int i=0; i<N; i++) //tyle iteracji ile wierzcholkow
 		while(koloryWierzcholkow.get(koloryWierzcholkow.size()-1).contains(0))  //jak zostaly wierzcholki bez krawedzi, to pokoloruj je wszystkie w jednym kroku
 		{
 			ArrayList<Integer>tablicaKolorow = new ArrayList<Integer>(); //generacja tablicy kolorow
+                        String saturationNodes = "";
+                        String degreeNodes = "";
+                        
 			for (int z=0; z<10; z++)
 				tablicaKolorow.add(z, z);
 			maxStopien = 0;
 			maxNasycenie = 0;
 			if (iteracja >0) 
-			{ //skopiuj kolory z poprzedniej iteracji do biezacej iteracji
+			{ //skopiuj koloryJednejIteracji z poprzedniej iteracji do biezacej iteracji
 				{
 					Integer[] itemArray = new Integer[N]; //koloryWierzcholkow.get(iteracja).size()];// albo wpisac N
 					Integer[] returnedArray = koloryWierzcholkow.get(iteracja-1).toArray(itemArray);
@@ -138,21 +145,28 @@ public class Coloring
 					koloryWierzcholkow.add(tmp);
 				}							
 			}
+                        
+                        //=============================
+                        System.out.println("iteracja " + iteracja);
+                        System.out.println("Stopnie:   " + stopnieWierzcholkow.toString());
+                        System.out.println("nasycenie: " + nasycenieWierzcholkow.toString());
+                        //=============================
 			
 			ArrayList<Integer> wierzch = new ArrayList<Integer>();
 			for (int k=0; k<N; k++)
 			{
-			if (koloryWierzcholkow.get(iteracja).get(k)==0) 				//jesli niepokolorowany
-			{
-			if (maxNasycenie < nasycenieWierzcholkow.get(k))		//TODO wybierz o najwiekszym nasyceniu wierzcholkowym
-				maxNasycenie = nasycenieWierzcholkow.get(k);		
-			}
+                            if (koloryWierzcholkow.get(iteracja).get(k)==0) 				//jesli niepokolorowany
+                            {
+                                if (maxNasycenie < nasycenieWierzcholkow.get(k))		//TODO wybierz o najwiekszym nasyceniu wierzcholkowym
+                                        maxNasycenie = nasycenieWierzcholkow.get(k);
+                            }
 			}
 			for (int k=0; k<N; k++)
 			{
 				if (nasycenieWierzcholkow.get(k)==maxNasycenie)
 					{
 						wierzch.add(k);
+                                                saturationNodes += " " + (k+1) + ",";
 						if (maxStopien < stopnieWierzcholkow.get(k))			//wybierz o najwiekszym stopniu wierzcholkowym
 						maxStopien = stopnieWierzcholkow.get(k);		
 					}
@@ -166,7 +180,8 @@ public class Coloring
 			
 			for (int j=0; j<N; j++)
 			{
-				
+				if(stopnieWierzcholkow.get(j)==maxStopien)
+                                    degreeNodes += " " + (j+1) + ",";
 //				//todo 
 				if ((macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(j)!=0) &&       	//warunek istnienia krawedzi
 					(koloryWierzcholkow.get(iteracja).get(j)!=0))			//warunek ze sasiad ma kolor				
@@ -179,18 +194,21 @@ public class Coloring
 					koloryWierzcholkow.get(iteracja).set(koloryWierzcholkow.get(iteracja).indexOf((int)0),tablicaKolorow.get(1));
 			}
 				for (int z=0; z<N; z++)
-					{ //uzupelnianie nasycenia wierzcholkow
-					if (iteracja ==0 && macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(z)>0 && 
-							koloryWierzcholkow.get(iteracja).get(stopnieWierzcholkow.lastIndexOf(maxStopien))>0) 
-					nasycenieWierzcholkow.set(z, nasycenieWierzcholkow.get(z)+1);
-					else if (iteracja > 0 && macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(z)>0 && 
-							(koloryWierzcholkow.get(iteracja).get(z)==0))	 
-					nasycenieWierzcholkow.set(z, nasycenieWierzcholkow.get(z)+1);
-					}
+                                { //uzupelnianie nasycenia wierzcholkow
+                                    if (iteracja ==0 && macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(z)>0 && 
+                                                    koloryWierzcholkow.get(iteracja).get(stopnieWierzcholkow.lastIndexOf(maxStopien))>0) 
+                                    nasycenieWierzcholkow.set(z, nasycenieWierzcholkow.get(z)+1);
+                                    else if (iteracja > 0 && macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(z)>0 && 
+                                                    (koloryWierzcholkow.get(iteracja).get(z)==0))	 
+                                    nasycenieWierzcholkow.set(z, nasycenieWierzcholkow.get(z)+1);
+                                }
 //			}
-			System.out.println(koloryWierzcholkow.get(koloryWierzcholkow.size()-1));
-
-			
+			System.out.println("kolory:    " + koloryWierzcholkow.get(koloryWierzcholkow.size()-1));
+                        int next = stopnieWierzcholkow.lastIndexOf(maxStopien)+1;
+                        DSATURInfoItem item = new DSATURInfoItem(iteracja+1, maxNasycenie, saturationNodes, maxStopien, degreeNodes, next);
+			System.out.println(item.toString());
+                        infos.add(item);
+                        
 //			for (int licz =0; licz<N; licz++) 
 //			{
 //				if (macierzSasiedztwa.get(maxStopien).get(licz).equals(1))
@@ -198,8 +216,9 @@ public class Coloring
 //			}
 			stopnieWierzcholkow.set(stopnieWierzcholkow.lastIndexOf(maxStopien),0);	  //wyzeruj stopnie dla pokolorowanego wierzchołka
 			iteracja ++;
-			System.out.println(tablicaKolorow.size());
+//			System.out.println(tablicaKolorow.size());
 		}
+                return infos;
 	}
 
         public static ArrayList<ArrayList<Integer>> RLF(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
@@ -212,7 +231,7 @@ public class Coloring
             koloryWierzcholkow.clear();
             for (int i=0; i<N; i++) 
             {
-                    wiersz2.add(i,0);				 //zerowe kolory poczatkowe
+                    wiersz2.add(i,0);				 //zerowe koloryJednejIteracji poczatkowe
             }
             koloryWierzcholkow.add(wiersz2);
             

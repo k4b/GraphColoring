@@ -1,6 +1,7 @@
 package GIS.graphviewer;
 
 import GIS.graphviewer.Coloring.ALGORITHM;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
@@ -16,6 +18,9 @@ import javax.swing.event.ChangeListener;
 
 public class Controller {
     
+    
+        private static final String DSATURPANEL = "DSATURPANEL";
+        private static final String RLFPANEL = "RLFPANEL";
 	private int interval;
         private String algorithm;
 	private Model model;
@@ -90,6 +95,7 @@ public class Controller {
             JFileChooser fc;
             int returnVal;
             File file;
+//            String algorithm;
 
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -123,7 +129,6 @@ public class Controller {
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
                     model.setCurrentColors(null);
-                    view.repaint();
                 } else if (ae.getSource() == view.getRunBtn()){
                     run(algorithm, interval*5);
                 } else if (ae.getSource() == view.getExitBtn()){
@@ -141,13 +146,20 @@ public class Controller {
         
             private void run(String alg, int interval) {
                 view.log("Coloring with " + alg + " algorithm" + " and " + interval + " ms interval" + "\n");
-                ArrayList<ArrayList<Integer>> colorsMatrix;
+                ArrayList<ArrayList<Integer>> colorsMatrix = null;
                 ArrayList<ArrayList<String>> nM = model.getNeighboursMatrix();
                 ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
-                colorsMatrix = Coloring.DSATUR(neighboursMatrix);
+                
+                if(alg.equals(Coloring.ALGORITHM.DSATUR.toString())) {
+                    DSATUROutput dso= Coloring.DSATUR(neighboursMatrix);
+                    colorsMatrix = dso.getNodeColors();
+                    model.setDSATURinfos(dso.getInfos());
+                } else if(alg.equals(Coloring.ALGORITHM.RLF.toString())) {
+                    colorsMatrix = Coloring.RLF(neighboursMatrix);
+                }
                 model.setColorsIntegerMatrix(colorsMatrix);
-                System.out.println("kolory:");
-                System.out.println(Coloring.macierzToString(colorsMatrix));
+//                System.out.println("kolory:");
+//                System.out.println(Coloring.macierzToString(colorsMatrix));
 
                 animationTimer = new Timer(interval, new AnimationActionListener());
                 animationTimer.setInitialDelay(0);
@@ -164,6 +176,17 @@ public class Controller {
                 if(counter < model.getColorsIntegerMatrix().size()) {
                     setCurrentColors();;
                     view.drawGraph();
+                    if(algorithm.equals(Coloring.ALGORITHM.DSATUR.toString())) {
+                        DSATURInfoItem infos = model.getDSATURinfos().get(counter);
+                        JPanel infoPanel = new DSATURInfoPanel(infos);
+                        view.getParamsPanel().removeAll();
+                        view.getParamsPanel().add(infoPanel, DSATURPANEL);
+                        CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
+                        cl.show(view.getParamsPanel(), DSATURPANEL);
+                        view.revalidate();
+                    } else if(algorithm.equals(Coloring.ALGORITHM.RLF.toString())) {
+                        
+                    }
                     counter++;
                 } else {
                     animationTimer.stop();
@@ -173,8 +196,8 @@ public class Controller {
             private void setCurrentColors() {
                 ArrayList<Integer> colors = model.getColorsIntegerMatrix().get(counter);
                 model.setCurrentColors(colors);
-                System.out.println("Current colors:");
-                System.out.println(model.arrayListToString(colors));
+//                System.out.println("Current colors:");
+//                System.out.println(model.arrayListToString(colors));
             }
             
         }

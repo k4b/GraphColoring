@@ -10,21 +10,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
 
 /**
  *
  * @author karol
  */
 public class View extends javax.swing.JFrame {
-
+    private static final String DSATURPANEL = "DSATURPANEL";
+    private static final String RLFPANEL = "RLFPANEL";
+    JTextArea logger = new JTextArea();
     /**
      * Creates new form View
      */
     public View(Model m) {
         model = m;
         initComponents();
+        paramsPanel.add(new DSATURInfoPanel(), DSATURPANEL);
+        CardLayout cl = (CardLayout)(paramsPanel.getLayout());
+        cl.show(paramsPanel, DSATURPANEL);
         DefaultCaret caret = (DefaultCaret)logger.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         Dimension dim = new Dimension(logger.getWidth(), (int)(0.15*this.getHeight()));
@@ -42,7 +50,7 @@ public class View extends javax.swing.JFrame {
 
         mainPanel = new javax.swing.JPanel();
         sidePanel = new javax.swing.JPanel();
-        paramsPanel = new javax.swing.JPanel();
+        paramsPanel = new JPanel(new CardLayout());
         controlsPanel = new javax.swing.JPanel();
         loadGraphBtn = new javax.swing.JButton();
         loadCoordBtn = new javax.swing.JButton();
@@ -52,8 +60,6 @@ public class View extends javax.swing.JFrame {
         slider = new javax.swing.JSlider();
         runBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        logger = new javax.swing.JTextArea();
         canvasPanel = new CanvasPanel(model);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,16 +67,7 @@ public class View extends javax.swing.JFrame {
 
         sidePanel.setMaximumSize(new java.awt.Dimension(800, 800));
 
-        javax.swing.GroupLayout paramsPanelLayout = new javax.swing.GroupLayout(paramsPanel);
-        paramsPanel.setLayout(paramsPanelLayout);
-        paramsPanelLayout.setHorizontalGroup(
-            paramsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        paramsPanelLayout.setVerticalGroup(
-            paramsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 69, Short.MAX_VALUE)
-        );
+        paramsPanel.setLayout(new java.awt.CardLayout());
 
         controlsPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
@@ -87,6 +84,7 @@ public class View extends javax.swing.JFrame {
         slider.setMaximum(1000);
         slider.setToolTipText("");
         slider.setValue(500);
+        slider.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay"));
         controlsPanel.add(slider);
 
         runBtn.setText("Run");
@@ -106,18 +104,10 @@ public class View extends javax.swing.JFrame {
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(paramsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, Short.MAX_VALUE)
+                .addComponent(paramsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(controlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Logger"));
-
-        logger.setColumns(20);
-        logger.setRows(5);
-        logger.setBorder(null);
-        logger.setMinimumSize(new java.awt.Dimension(100, 60));
-        jScrollPane1.setViewportView(logger);
 
         canvasPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("white"));
         canvasPanel.setMaximumSize(new java.awt.Dimension(1000, 1000));
@@ -143,16 +133,11 @@ public class View extends javax.swing.JFrame {
                 .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
+            .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+            .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -166,9 +151,9 @@ public class View extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -180,10 +165,8 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel canvasPanel;
     private javax.swing.JPanel controlsPanel;
     private javax.swing.JButton exitBtn;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadCoordBtn;
     private javax.swing.JButton loadGraphBtn;
-    private javax.swing.JTextArea logger;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel paramsPanel;
     private javax.swing.JButton runBtn;
