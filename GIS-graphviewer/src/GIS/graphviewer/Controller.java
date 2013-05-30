@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -25,7 +26,10 @@ public class Controller {
         private String algorithm;
 	private Model model;
         private View view;
-        Timer animationTimer;
+        private Timer animationTimer;
+        private AnimationState state = AnimationState.NOT_RUNNING;
+        
+        private enum AnimationState { RUNNING, PAUSED, NOT_RUNNING };
 	
 	public int getInterval() {
 		return interval;
@@ -130,18 +134,43 @@ public class Controller {
                         view.log("Coordinates not loaded!" + View.LINE_END);
                     }
                 } else if (ae.getSource() == view.getShowBtn()){
+                    model.setCurrentColors(null);
                     view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
                     CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
                     if(algorithm.equals("DSATUR"))
                         cl.show(view.getParamsPanel(), DSATURPANEL);
-                    else
+                    else {
+                        view.getParamsPanel().add(new RLFInfoPanel(), RLFPANEL);
                         cl.show(view.getParamsPanel(), RLFPANEL);
+                    }
                     model.setCurrentColors(null);
                     view.drawGraph();
+                    if(animationTimer!=null)
+                        animationTimer.stop();
+                    view.getRunBtn().setText("Run");
+                    state = AnimationState.NOT_RUNNING;
+                    
                 } else if (ae.getSource() == view.getRunBtn()){
-                    run(algorithm, interval*5);
+                    switch(state) {
+                        case NOT_RUNNING :
+                            run(algorithm, interval*3);
+                            view.getRunBtn().setText("PAUSE (running)");
+                            state = AnimationState.RUNNING;
+                            break;
+                        case RUNNING :
+                            animationTimer.stop();
+                            view.getRunBtn().setText("Run (paused)");
+                            state = AnimationState.PAUSED;
+                            break;
+                        case PAUSED :
+                            animationTimer.setDelay(interval*3);
+                            animationTimer.start();
+                            view.getRunBtn().setText("PAUSE (running)");
+                            state = AnimationState.RUNNING;
+                            break;
+                    }
                 } else if (ae.getSource() == view.getExitBtn()){
                     view.closeWindow();
                 }
@@ -162,20 +191,19 @@ public class Controller {
                 ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
                 
                 if(alg.equals(Coloring.ALGORITHM.DSATUR.toString())) {
-                    DSATUROutput dso= Coloring.DSATUR(neighboursMatrix);
+                    DSATUROutput dso = Coloring.DSATUR(neighboursMatrix);
                     colorsMatrix = dso.getNodeColors();
                     model.setDSATURinfos(dso.getInfos());
                 } else if(alg.equals(Coloring.ALGORITHM.RLF.toString())) {
-                    colorsMatrix = Coloring.RLF(neighboursMatrix);
+                    RLFOutput rlfo = Coloring.RLF(neighboursMatrix);
+                    colorsMatrix = rlfo.getNodeColors();
+                    model.setRLFinfos(rlfo.getInfos());
                 }
                 model.setColorsIntegerMatrix(colorsMatrix);
-//                System.out.println("kolory:");
-//                System.out.println(Coloring.macierzToString(colorsMatrix));
 
                 animationTimer = new Timer(interval, new AnimationActionListener());
                 animationTimer.setInitialDelay(0);
                 animationTimer.start();
-                
             }
         }
         
@@ -196,11 +224,19 @@ public class Controller {
                         cl.show(view.getParamsPanel(), DSATURPANEL);
                         view.revalidate();
                     } else if(algorithm.equals(Coloring.ALGORITHM.RLF.toString())) {
-                        
+                        RLFInfoItem info = model.getRLFinfos().get(counter);
+                        JPanel infoPanel = new RLFInfoPanel(info);
+                        view.getParamsPanel().removeAll();
+                        view.getParamsPanel().add(infoPanel, DSATURPANEL);
+                        CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
+                        cl.show(view.getParamsPanel(), DSATURPANEL);
+                        view.revalidate();
                     }
                     counter++;
                 } else {
                     animationTimer.stop();
+                    state = AnimationState.NOT_RUNNING;
+                    view.getRunBtn().setText("Run");
                 }
             }
             

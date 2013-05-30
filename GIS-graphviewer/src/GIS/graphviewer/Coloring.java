@@ -166,7 +166,7 @@ public class Coloring
 				if (nasycenieWierzcholkow.get(k)==maxNasycenie)
 					{
 						wierzch.add(k);
-                                                saturationNodes += " " + (k+1) + ",";
+                                                saturationNodes += " " + k + ",";
 						if (maxStopien < stopnieWierzcholkow.get(k))			//wybierz o najwiekszym stopniu wierzcholkowym
 						maxStopien = stopnieWierzcholkow.get(k);		
 					}
@@ -181,7 +181,7 @@ public class Coloring
 			for (int j=0; j<N; j++)
 			{
 				if(stopnieWierzcholkow.get(j)==maxStopien)
-                                    degreeNodes += " " + (j+1) + ",";
+                                    degreeNodes += " " + j + ",";
 //				//todo 
 				if ((macierzSasiedztwa.get(stopnieWierzcholkow.lastIndexOf(maxStopien)).get(j)!=0) &&       	//warunek istnienia krawedzi
 					(koloryWierzcholkow.get(iteracja).get(j)!=0))			//warunek ze sasiad ma kolor				
@@ -204,7 +204,7 @@ public class Coloring
                                 }
 //			}
 			System.out.println("kolory:    " + koloryWierzcholkow.get(koloryWierzcholkow.size()-1));
-                        int next = stopnieWierzcholkow.lastIndexOf(maxStopien)+1;
+                        int next = stopnieWierzcholkow.lastIndexOf(maxStopien);
                         DSATURInfoItem item = new DSATURInfoItem(iteracja+1, maxNasycenie, saturationNodes, maxStopien, degreeNodes, next);
 			System.out.println(item.toString());
                         infos.add(item);
@@ -221,11 +221,12 @@ public class Coloring
                 return infos;
 	}
 
-        public static ArrayList<ArrayList<Integer>> RLF(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
+        public static RLFOutput RLF(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
             int N = macierzSasiedztwa.size();
             ArrayList<Integer> stopnieWierzcholkow = new ArrayList<Integer>();
             ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
             ArrayList<Integer> wiersz2 = new ArrayList<Integer>();
+            ArrayList<RLFInfoItem> RLFinfos;
             
             //metoda wyczysc
             koloryWierzcholkow.clear();
@@ -236,11 +237,21 @@ public class Coloring
             koloryWierzcholkow.add(wiersz2);
             
             obliczStopnieWierzcholkow(macierzSasiedztwa, stopnieWierzcholkow, N);
-            kolorujRLF(N, macierzSasiedztwa, koloryWierzcholkow, stopnieWierzcholkow);
-            return koloryWierzcholkow;
+            RLFinfos = kolorujRLF(N, macierzSasiedztwa, koloryWierzcholkow, stopnieWierzcholkow);
+            System.out.println("kolory:");
+            System.out.println(Model.integerMatrixToString(koloryWierzcholkow));
+            System.out.println("infos:");
+            String info = "";
+            for(RLFInfoItem item : RLFinfos){
+                info += item.toString() + "\n";
+            }
+            System.out.println(info);
+            
+            RLFOutput output = new RLFOutput(koloryWierzcholkow, RLFinfos);
+            return output;
         }
 
-	private static void kolorujRLF(int N,
+	private static ArrayList<RLFInfoItem> kolorujRLF(int N,
 			ArrayList<ArrayList<Integer>> macierzSasiedztwa,
 			ArrayList<ArrayList<Integer>> koloryWierzcholkow,
 			ArrayList<Integer> stopnieWierzcholkow)
@@ -251,15 +262,21 @@ public class Coloring
 		ArrayList<Integer> zbiorU = new ArrayList<Integer>();
 		ArrayList<Integer> zbiorC = new ArrayList<Integer>();
 		ArrayList<Integer> zbiorW_U = new ArrayList<Integer>();
+                ArrayList<RLFInfoItem> infos = new ArrayList<>();
+                ArrayList<ArrayList<Integer>> myColors = new ArrayList<>();
+                
+                ArrayList<Integer> currentColors = new ArrayList<>();
 		
 		int kolor = 1;
 		for (int i=0; i<N; i++)			//przypisz do zbioru W wszystkie wierzcholki
 			{
 			zbiorW.add(i, i);
+                        currentColors.add(0);
 			}
 		
 		while (!zbiorW.isEmpty())
 		{
+                    
 		maxStopien = 0;
 		int licz=0;
 		zbiorC.clear();
@@ -295,7 +312,7 @@ public class Coloring
 			zbiorC.add(stopnieWierzcholkow.lastIndexOf(maxStopien));	//dodaj do zbioru C najwyzszy wierzcholek
 			else
 				zbiorC.add(zbiorW.get(0));
-			
+                                
 				while (!zbiorU.isEmpty())
 				{
 					for (int j=0; j<zbiorC.size(); j++)
@@ -328,12 +345,38 @@ public class Coloring
 				System.out.println(zbiorW);
 				System.out.println(zbiorW_U);
 				System.out.println(zbiorU);
+                                
+                                RLFInfoItem item = new RLFInfoItem(infos.size()+1, new ArrayList<>(zbiorW), new ArrayList<>(zbiorU), 
+                                        new ArrayList<>(zbiorC), new ArrayList<>(zbiorW_U));
+                                infos.add(item);
+                                
+                                for(Integer node : zbiorC){
+                                    currentColors.set(node, kolor);
+                                }
+                                myColors.add(new ArrayList<>(currentColors));
 				
 				if (zbiorU.size()>0)
 				{		
 					zbiorC.add(zbiorU.get(0));			//dodaje pierwszy wolny do kolorowania
 					zbiorU.remove(0);					// TODO powinien byc z najwieksza liczba polaczen w W\U
-				}
+				        
+                                        if(zbiorU.isEmpty()) {
+                                            System.out.println();
+                                            System.out.println(zbiorC);
+                                            System.out.println(zbiorW);
+                                            System.out.println(zbiorW_U);
+                                            System.out.println(zbiorU);
+
+                                            RLFInfoItem item2 = new RLFInfoItem(infos.size()+1, new ArrayList<>(zbiorW), new ArrayList<>(zbiorU), 
+                                                    new ArrayList<>(zbiorC), new ArrayList<>(zbiorW_U));
+                                            infos.add(item2);
+
+                                            for(Integer node : zbiorC){
+                                                currentColors.set(node, kolor);
+                                            }
+                                            myColors.add(new ArrayList<>(currentColors));
+                                        }
+                                }
 			
 				}
 			
@@ -346,6 +389,11 @@ public class Coloring
 				kolor++;
 				iteracja = iteracja + 1;
 		}
+                System.out.println("MyColors");
+                System.out.println(Model.integerMatrixToString(myColors));
+                koloryWierzcholkow.clear();
+                koloryWierzcholkow.addAll(myColors);
+                return infos;
 	}
 
 

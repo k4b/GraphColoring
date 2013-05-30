@@ -88,14 +88,14 @@ public class CanvasPanel extends JPanel{
             ArrayList<Integer> nodeColors = model.getCurrentColors();
             if(nodeColors!=null && nodeColors.size()>0) {
                 for(ArrayList<Integer> coords : nodesCoordinates){
-                    drawNode(""+(nodeID+1), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, 
+                    drawNode(""+(nodeID), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, 
                             model.getColors().get(nodeColors.get(nodeID)));
                     
                     nodeID++;
                 }
             } else {
                 for(ArrayList<Integer> coords : nodesCoordinates){
-                    drawNode(""+(nodeID+1), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, Color.white);
+                    drawNode(""+(nodeID), (int)(coords.get(0)*xStep), (int)(coords.get(1)*yStep), (int)diameter, Color.white);
                     nodeID++;
                 }
             }

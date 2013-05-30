@@ -15,6 +15,7 @@ public class Model {
 	private ArrayList<Node> nodes;
         private ArrayList<Color> colors;
         private ArrayList<DSATURInfoItem> DSATURinfos;
+        private ArrayList<RLFInfoItem> RLFinfos;
         
         public Model() {
             colors = new ArrayList<>();
@@ -83,6 +84,14 @@ public class Model {
         public void setDSATURinfos(ArrayList<DSATURInfoItem> DSATURinfos) {
             this.DSATURinfos = DSATURinfos;
         }   
+        
+        public ArrayList<RLFInfoItem> getRLFinfos() {
+            return RLFinfos;
+        }
+
+        public void setRLFinfos(ArrayList<RLFInfoItem> RLFinfos) {
+            this.RLFinfos = RLFinfos;
+        }
 	
 	public static String matrixToString(ArrayList<ArrayList<String>> g)
 	{
@@ -150,6 +159,8 @@ public class Model {
 		}
 		return newMatrix;
 	}
+
+    
 
     
 }
