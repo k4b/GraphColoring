@@ -31,6 +31,7 @@ public class View extends javax.swing.JFrame {
         model = m;
         initComponents();
         paramsPanel.add(new DSATURInfoPanel(), DSATURPANEL);
+        paramsPanel.add(new RLFInfoPanel(), RLFPANEL);
         CardLayout cl = (CardLayout)(paramsPanel.getLayout());
         cl.show(paramsPanel, DSATURPANEL);
         DefaultCaret caret = (DefaultCaret)logger.getCaret();
@@ -103,16 +104,15 @@ public class View extends javax.swing.JFrame {
         sidePanelLayout.setVerticalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(paramsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addComponent(paramsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(controlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         canvasPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("white"));
         canvasPanel.setMaximumSize(new java.awt.Dimension(1000, 1000));
-        canvasPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        canvasPanel.setPreferredSize(new java.awt.Dimension(800, 800));
+        canvasPanel.setMinimumSize(new java.awt.Dimension(600, 600));
+        canvasPanel.setPreferredSize(new java.awt.Dimension(600, 600));
 
         javax.swing.GroupLayout canvasPanelLayout = new javax.swing.GroupLayout(canvasPanel);
         canvasPanel.setLayout(canvasPanelLayout);
@@ -130,13 +130,13 @@ public class View extends javax.swing.JFrame {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+            .addComponent(canvasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
             .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 

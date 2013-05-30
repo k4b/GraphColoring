@@ -47,6 +47,11 @@ public class Controller {
                 ALGORITHM[] algorithms = Coloring.ALGORITHM.values();
                 algorithm = algorithms[0].toString();
                 interval = view.getSlider().getValue();
+                CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
+                if(algorithm.equals("DSATUR"))
+                    cl.show(view.getParamsPanel(), DSATURPANEL);
+                else
+                    cl.show(view.getParamsPanel(), RLFPANEL);
                 
                 // add listeners to the view
                 ControlsActionListener listener = new ControlsActionListener();
@@ -128,7 +133,13 @@ public class Controller {
                     view.drawGraph();
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
+                    CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
+                    if(algorithm.equals("DSATUR"))
+                        cl.show(view.getParamsPanel(), DSATURPANEL);
+                    else
+                        cl.show(view.getParamsPanel(), RLFPANEL);
                     model.setCurrentColors(null);
+                    view.drawGraph();
                 } else if (ae.getSource() == view.getRunBtn()){
                     run(algorithm, interval*5);
                 } else if (ae.getSource() == view.getExitBtn()){

@@ -48,7 +48,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Component id="canvasPanel" max="32767" attributes="0"/>
+                  <Component id="canvasPanel" pref="800" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sidePanel" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -56,7 +56,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="canvasPanel" pref="804" max="32767" attributes="0"/>
+              <Component id="canvasPanel" pref="800" max="32767" attributes="0"/>
               <Component id="sidePanel" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
@@ -79,8 +79,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paramsPanel" pref="454" max="32767" attributes="0"/>
+                      <Component id="paramsPanel" pref="463" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="controlsPanel" min="-2" pref="324" max="-2" attributes="0"/>
                   </Group>
@@ -158,10 +157,10 @@
               <Dimension value="[1000, 1000]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 100]"/>
+              <Dimension value="[600, 600]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[800, 800]"/>
+              <Dimension value="[600, 600]"/>
             </Property>
           </Properties>
           <AuxValues>
