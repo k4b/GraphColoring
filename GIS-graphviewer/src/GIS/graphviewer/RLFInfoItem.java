@@ -51,32 +51,24 @@ public class RLFInfoItem {
         return setW;
     }
 
-    public void setSetW(ArrayList<Integer> setW) {
-        this.setW = setW;
-    }
-
     public ArrayList<Integer> getSetU() {
         return setU;
-    }
-
-    public void setSetU(ArrayList<Integer> setU) {
-        this.setU = setU;
     }
 
     public ArrayList<Integer> getSetC() {
         return setC;
     }
 
-    public void setSetC(ArrayList<Integer> setC) {
-        this.setC = setC;
-    }
-
     public ArrayList<Integer> getSetWminusU() {
         return setWminusU;
     }
+    
+    public int getIteration() {
+        return iteration;
+    }
 
-    public void setSetWminusU(ArrayList<Integer> setWminusU) {
-        this.setWminusU = setWminusU;
+    public int getMaxDegree() {
+        return maxDegree;
     }
     
     @Override
@@ -87,21 +79,5 @@ public class RLFInfoItem {
         s += "set C: " + setToString(setC) + "\n";
         s += "set W-U " + setToString(setWminusU) + "\n";
         return s;        
-    }
-
-    public int getIteration() {
-        return iteration;
-    }
-
-    public void setIteration(int iteration) {
-        this.iteration = iteration;
-    }
-
-    public int getMaxDegree() {
-        return maxDegree;
-    }
-
-    public void setMaxDegree(int maxDegree) {
-        this.maxDegree = maxDegree;
     }
 }

@@ -24,15 +24,7 @@ public class DSATUROutput {
         return infos;
     }
 
-    public void setInfos(ArrayList<DSATURInfoItem> infos) {
-        this.infos = infos;
-    }
-
     public ArrayList<ArrayList<Integer>> getNodeColors() {
         return nodeColors;
-    }
-
-    public void setNodeColors(ArrayList<ArrayList<Integer>> nodeColors) {
-        this.nodeColors = nodeColors;
     }
 }

@@ -24,17 +24,7 @@ public class RLFOutput {
         return nodeColors;
     }
 
-    public void setNodeColors(ArrayList<ArrayList<Integer>> nodeColors) {
-        this.nodeColors = nodeColors;
-    }
-
     public ArrayList<RLFInfoItem> getInfos() {
         return infos;
     }
-
-    public void setInfos(ArrayList<RLFInfoItem> infos) {
-        this.infos = infos;
-    }
-    
-    
 }

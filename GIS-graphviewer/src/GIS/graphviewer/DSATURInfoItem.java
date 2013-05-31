@@ -33,48 +33,24 @@ public class DSATURInfoItem {
         return maxSaturation;
     }
 
-    public void setMaxSaturation(int maxSaturation) {
-        this.maxSaturation = maxSaturation;
-    }
-
     public String getSaturationNodes() {
         return saturationNodes;
-    }
-
-    public void setSaturationNodes(String saturationNodes) {
-        this.saturationNodes = saturationNodes;
     }
 
     public int getMaxNodeDegree() {
         return maxNodeDegree;
     }
 
-    public void setMaxNodeDegree(int maxNodeDegree) {
-        this.maxNodeDegree = maxNodeDegree;
-    }
-
     public String getDegreeNodes() {
         return degreeNodes;
-    }
-
-    public void setDegreeNodes(String degreeNodes) {
-        this.degreeNodes = degreeNodes;
     }
 
     public int getNextNode() {
         return nextNode;
     }
 
-    public void setNextNode(int nextNode) {
-        this.nextNode = nextNode;
-    }
-
     public int getIteration() {
         return iteration;
-    }
-
-    public void setIteration(int iteration) {
-        this.iteration = iteration;
     }
     
     @Override

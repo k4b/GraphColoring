@@ -172,22 +172,15 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JSlider slider;
     // End of variables declaration//GEN-END:variables
     // Programmer variables declaration
-    public static final String LINE_END = "\n";
+    private static final String LINE_END = "\n";
     private Model model;
     // End of programmer variables declaration
 
     /**
      * @return the controlsPanel
      */
-    public javax.swing.JPanel getControlsPanel() {
+    private javax.swing.JPanel getControlsPanel() {
         return controlsPanel;
-    }
-
-    /**
-     * @param controlsPanel the controlsPanel to set
-     */
-    public void setControlsPanel(javax.swing.JPanel controlsPanel) {
-        this.controlsPanel = controlsPanel;
     }
 
     /**
@@ -219,31 +212,10 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
-     * @return the mainPanel
-     */
-    public javax.swing.JPanel getMainPanel() {
-        return mainPanel;
-    }
-
-    /**
-     * @param mainPanel the mainPanel to set
-     */
-    public void setMainPanel(javax.swing.JPanel mainPanel) {
-        this.mainPanel = mainPanel;
-    }
-
-    /**
      * @return the paramsPanel
      */
     public javax.swing.JPanel getParamsPanel() {
         return paramsPanel;
-    }
-
-    /**
-     * @param paramsPanel the paramsPanel to set
-     */
-    public void setParamsPanel(javax.swing.JPanel paramsPanel) {
-        this.paramsPanel = paramsPanel;
     }
 
     /**
@@ -258,27 +230,6 @@ public class View extends javax.swing.JFrame {
      */
     public javax.swing.JButton getSaveBtn() {
         return saveBtn;
-    }
-
-    /**
-     * @return the sidePanel
-     */
-    public javax.swing.JPanel getSidePanel() {
-        return sidePanel;
-    }
-
-    /**
-     * @return the logger
-     */
-    public javax.swing.JTextArea getLogger() {
-        return logger;
-    }
-
-    /**
-     * @param logger the logger to set
-     */
-    public void setLogger(javax.swing.JTextArea logger) {
-        this.logger = logger;
     }
 
     public void addBtnActionListener(JButton btn, ActionListener al){
@@ -300,9 +251,5 @@ public class View extends javax.swing.JFrame {
     
     public void drawGraph(){
         canvasPanel.repaint();
-    }
-    
-    public void log(String s){
-        logger.append(s + "\n");
     }
 }

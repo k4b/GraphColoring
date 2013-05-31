@@ -49,34 +49,42 @@ public class CanvasPanel extends JPanel{
             
             for(int i = 0; i<howMany; i++){
                 ArrayList<String> coordinates = model.getCoordinatesMatrix().get(i);
-                int x = Integer.parseInt(coordinates.get(0));
-                int y = Integer.parseInt(coordinates.get(1));
-                int z = Integer.parseInt(coordinates.get(2));
+                if(coordinates.size() >= 3) {
+                    int x = Integer.parseInt(coordinates.get(0));
+                    int y = Integer.parseInt(coordinates.get(1));
+                    int z = Integer.parseInt(coordinates.get(2));
 
-                nodeCoordinates = new ArrayList<>();
-                nodeCoordinates.add(x);
-                nodeCoordinates.add(y);
-                nodeCoordinates.add(z);
-                
-                
-                
-                //Drawing links
-                ArrayList<String> links = model.getNeighboursMatrix().get(i);
-                
-                for(int j = 0; j<howMany;j++){
-                    if(i!=j && !links.get(j).equals("0")){
-                        ArrayList<String> coordinatesTo = model.getCoordinatesMatrix().get(j);
-                        int xTo = Integer.parseInt(coordinatesTo.get(0));
-                        int yTo = Integer.parseInt(coordinatesTo.get(1));
-                        int zTo = Integer.parseInt(coordinatesTo.get(2));
-                        
-                        drawLink(x*xStep, y*yStep, xTo*xStep, yTo*yStep);
+                    nodeCoordinates = new ArrayList<>();
+                    nodeCoordinates.add(x);
+                    nodeCoordinates.add(y);
+                    nodeCoordinates.add(z);
+
+
+
+                    //Drawing links
+                    ArrayList<String> links = model.getNeighboursMatrix().get(i);
+
+                    for(int j = 0; j<howMany;j++){
+                        if(i!=j && links.size()>=howMany && !links.get(j).equals("0")){
+                            ArrayList<String> coordinatesTo = model.getCoordinatesMatrix().get(j);
+                            if(coordinatesTo.size() >= 3) {
+                                int xTo = Integer.parseInt(coordinatesTo.get(0));
+                                int yTo = Integer.parseInt(coordinatesTo.get(1));
+                                int zTo = Integer.parseInt(coordinatesTo.get(2));
+
+                                drawLink(x*xStep, y*yStep, xTo*xStep, yTo*yStep);
+                            } else {
+                                System.out.println("Coordinates data error!");
+                            }
+                        }
                     }
+                    nodesCoordinates.add(nodeCoordinates);
+                } else {
+                    System.out.println("Coordinates data error!");
                 }
-                nodesCoordinates.add(nodeCoordinates);
+                //Drawing nodes
+                drawNodes(nodesCoordinates);
             }
-            //Drawing nodes
-            drawNodes(nodesCoordinates);
         }
     }
     

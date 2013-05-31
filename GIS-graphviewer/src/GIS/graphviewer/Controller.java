@@ -33,16 +33,16 @@ public class Controller {
         
         private enum AnimationState { RUNNING, PAUSED, NOT_RUNNING };
 	
-	public int getInterval() {
+	private int getInterval() {
 		return interval;
 	}
-	public void setInterval(int interval) {
+	private void setInterval(int interval) {
 		this.interval = interval;
 	}
-	public Model getModel() {
+	private Model getModel() {
 		return model;
 	}
-	public void setModel(Model model) {
+	private void setModel(Model model) {
 		this.model = model;
 	}
 	
@@ -74,7 +74,7 @@ public class Controller {
             return FileUtility.loadFile(path);
 //		model.setNeighboursMatrix(FileUtility.loadFile(path));
 //                view.log("Graph loaded:" + View.LINE_END);
-//                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
+//                view.log(Model.stringMatrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
         
         public ArrayList<ArrayList<String>> loadNeighboursMatrix(File f)
@@ -82,7 +82,7 @@ public class Controller {
             return FileUtility.loadFile(f);
 //		model.setNeighboursMatrix(FileUtility.loadFile(f));
 //                view.log("Graph loaded:" + View.LINE_END);
-//                view.log(Model.matrixToString(model.getNeighboursMatrix())+View.LINE_END);
+//                view.log(Model.stringMatrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
 	
 	public ArrayList<ArrayList<String>> loadCoordinatesMatrix(String path)
@@ -90,7 +90,7 @@ public class Controller {
             return FileUtility.loadFile(path);
 //		model.setCoordinatesMatrix(FileUtility.loadFile(path));
 //                view.log("Coordinates loaded:" + View.LINE_END);
-//                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
+//                view.log(Model.stringMatrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         public ArrayList<ArrayList<String>> loadCoordinatesMatrix(File f)
@@ -98,13 +98,13 @@ public class Controller {
             return FileUtility.loadFile(f);
 //		model.setCoordinatesMatrix(FileUtility.loadFile(f));
 //                view.log("Coordinates loaded:" + View.LINE_END);
-//                view.log(Model.matrixToString(model.getCoordinatesMatrix())+View.LINE_END);
+//                view.log(Model.stringMatrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         /**
          * 
          */
-        public class ControlsActionListener implements ActionListener, ChangeListener{
+        private class ControlsActionListener implements ActionListener, ChangeListener{
             
             JFileChooser fc;
             int returnVal;
@@ -155,10 +155,10 @@ public class Controller {
                             
                             view.drawGraph();
                         } else {
-                            System.out.println("Coordinates not loaded!" + View.LINE_END);
+                            System.out.println("Coordinates not loaded!\n");
                         }
                     } else {
-                        System.out.println("Graph not loaded!" + View.LINE_END);
+                        System.out.println("Graph not loaded!\n");
                     }
 //                } else if (ae.getSource() == view.getLoadCoordBtn()){
 //                    fc = new JFileChooser();
@@ -168,7 +168,7 @@ public class Controller {
 //                        loadCoordinatesMatrix(file);
 //                        //This is where a real application would open the file.
 //                        view.log("Coordinates loaded:" + View.LINE_END);
-//                        view.log(Model.matrixToString(model.getCoordinatesMatrix()));
+//                        view.log(Model.stringMatrixToString(model.getCoordinatesMatrix()));
 //                    } else {
 //                        view.log("Coordinates not loaded!" + View.LINE_END);
 //                    }
@@ -193,7 +193,7 @@ public class Controller {
                                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         } else {
-                                System.out.println("Colors not saved!" + View.LINE_END);
+                                System.out.println("Colors not saved!\n");
                         }
                     }
                 } else if (ae.getSource() == view.getAlgBox()){
@@ -259,10 +259,9 @@ public class Controller {
             }
         
             private void run(String alg, int interval) {
-                view.log("Coloring with " + alg + " algorithm" + " and " + interval + " ms interval" + "\n");
                 ArrayList<ArrayList<Integer>> colorsMatrix = null;
                 ArrayList<ArrayList<String>> nM = model.getNeighboursMatrix();
-                ArrayList<ArrayList<Integer>> neighboursMatrix = Model.convertStringToIntegerMatrix(nM);
+                ArrayList<ArrayList<Integer>> neighboursMatrix = Model.stringMatrixToIntegerMatrix(nM);
                 
                 if(alg.equals(Coloring.ALGORITHM.DSATUR.toString())) {
                     DSATUROutput dso = Coloring.DSATUR(neighboursMatrix);
@@ -281,7 +280,7 @@ public class Controller {
             }
         }
         
-        public class AnimationActionListener implements ActionListener {
+        private class AnimationActionListener implements ActionListener {
             private int counter = 0;
 
             @Override

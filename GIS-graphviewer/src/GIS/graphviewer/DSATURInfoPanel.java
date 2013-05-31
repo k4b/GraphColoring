@@ -18,54 +18,6 @@ public class DSATURInfoPanel extends javax.swing.JPanel {
     public DSATURInfoPanel() {
         initComponents();
     }
-
-    public JLabel getDegreeNodesLabel() {
-        return degreeNodesLabel;
-    }
-
-    public void setDegreeNodesLabel(JLabel degreeNodesLabel) {
-        this.degreeNodesLabel = degreeNodesLabel;
-    }
-
-    public JLabel getIterationLabel() {
-        return iterationLabel;
-    }
-
-    public void setIterationLabel(JLabel iterationLabel) {
-        this.iterationLabel = iterationLabel;
-    }
-
-    public JLabel getMaxDegreeLabel() {
-        return maxDegreeLabel;
-    }
-
-    public void setMaxDegreeLabel(JLabel maxDegreeLabel) {
-        this.maxDegreeLabel = maxDegreeLabel;
-    }
-
-    public JLabel getMaxSaturationLabel() {
-        return maxSaturationLabel;
-    }
-
-    public void setMaxSaturationLabel(JLabel maxSaturationLabel) {
-        this.maxSaturationLabel = maxSaturationLabel;
-    }
-
-    public JLabel getNextNodeLabel() {
-        return nextNodeLabel;
-    }
-
-    public void setNextNodeLabel(JLabel nextNodeLabel) {
-        this.nextNodeLabel = nextNodeLabel;
-    }
-
-    public JLabel getSaturiationNodesLabel() {
-        return saturiationNodesLabel;
-    }
-
-    public void setSaturiationNodesLabel(JLabel saturiationNodesLabel) {
-        this.saturiationNodesLabel = saturiationNodesLabel;
-    }
     
     /**
      * Creates new form DSATURInfoPanel

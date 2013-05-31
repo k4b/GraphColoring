@@ -12,7 +12,6 @@ public class Model {
 	private ArrayList<ArrayList<String>> colorsMatrix;
         private ArrayList<ArrayList<Integer>> colorsIntegerMatrix;
         private ArrayList<Integer> currentColors;
-	private ArrayList<Node> nodes;
         private ArrayList<Color> colors;
         private ArrayList<DSATURInfoItem> DSATURinfos;
         private ArrayList<RLFInfoItem> RLFinfos;
@@ -57,9 +56,6 @@ public class Model {
 	public void setColorsMatrix(ArrayList<ArrayList<String>> colorsMatrix) {
 		this.colorsMatrix = colorsMatrix;
 	}
-	public ArrayList<Node> getNodes() {
-		return nodes;
-	}
         
         public ArrayList<Integer> getCurrentColors() {
             return currentColors;
@@ -93,14 +89,14 @@ public class Model {
             this.RLFinfos = RLFinfos;
         }
 	
-	public static String matrixToString(ArrayList<ArrayList<String>> g)
+	public static String stringMatrixToString(ArrayList<ArrayList<String>> g)
 	{
                 String output = "";
 		for(ArrayList<String> row : g){
 			for(String s : row){
 				output += s + " ";
 			}
-			output += View.LINE_END;
+			output += "\n";
 		}
                 return output;
 	}
@@ -112,12 +108,12 @@ public class Model {
 			for(Integer s : row){
 				output += s.toString() + " ";
 			}
-			output += View.LINE_END;
+			output += "\n";
 		}
                 return output;
 	}
         
-        public static ArrayList<ArrayList<Integer>> convertStringToIntegerMatrix(ArrayList<ArrayList<String>> m) {
+        public static ArrayList<ArrayList<Integer>> stringMatrixToIntegerMatrix(ArrayList<ArrayList<String>> m) {
             ArrayList<ArrayList<Integer>> output = new ArrayList<>();
             for(ArrayList<String> stringsRow : m) {
                 ArrayList<Integer> row = new ArrayList<>();
