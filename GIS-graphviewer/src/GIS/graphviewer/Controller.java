@@ -197,6 +197,12 @@ public class Controller {
                         }
                     }
                 } else if (ae.getSource() == view.getAlgBox()){
+                    if(animationTimer!=null)
+                        animationTimer.stop();
+                    animationTimer = null;
+                    view.getRunBtn().setText("Run");
+                    state = AnimationState.NOT_RUNNING;
+                    
                     algorithm = view.getAlgBox().getSelectedItem().toString();
                     CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
                     if(algorithm.equals("DSATUR")) {
@@ -213,10 +219,7 @@ public class Controller {
                     }
                     model.setCurrentColors(null);
                     view.drawGraph();
-                    if(animationTimer!=null)
-                        animationTimer.stop();
-                    view.getRunBtn().setText("Run");
-                    state = AnimationState.NOT_RUNNING;
+                    
                     
                 } else if (ae.getSource() == view.getRunBtn()){
                     switch(state) {
@@ -247,6 +250,11 @@ public class Controller {
                 JSlider source = (JSlider)ce.getSource();
                 if (!source.getValueIsAdjusting()) {
                     interval = (int)source.getValue();
+                    if(state.equals(AnimationState.RUNNING)) {
+                        animationTimer.stop();
+                        animationTimer.setDelay(interval*3);
+                        animationTimer.start();
+                    }
                 }
             }
         
