@@ -2,6 +2,7 @@ package GIS.graphviewer;
 
 import GIS.graphviewer.Coloring.ALGORITHM;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -141,6 +142,17 @@ public class Controller {
                             model.setColorsIntegerMatrix(null);
                             model.setDSATURinfos(null);
                             model.setRLFinfos(null);
+                            
+                            //add colors
+                            int colorsNum = model.getColors().size()-1;
+                            int nodesNum = model.getNeighboursMatrix().size();
+                            int difference = nodesNum - colorsNum;
+                            if(difference > 0) {
+                                for(int i = 0; i < difference; i++) {
+                                    model.getColors().add(Color.white);
+                                }
+                            }
+                            
                             view.drawGraph();
                         } else {
                             System.out.println("Coordinates not loaded!" + View.LINE_END);

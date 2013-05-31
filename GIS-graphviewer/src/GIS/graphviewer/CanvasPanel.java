@@ -43,8 +43,11 @@ public class CanvasPanel extends JPanel{
         ArrayList<ArrayList<Integer>> nodesCoordinates = new ArrayList<>();
         
         //Drawing Graph
+        
         if(model.getNeighboursMatrix()!=null && model.getCoordinatesMatrix()!=null){
-            for(int i = 0; i<model.getNeighboursMatrix().size(); i++){
+            int howMany = Math.min(model.getNeighboursMatrix().size(), model.getCoordinatesMatrix().size());
+            
+            for(int i = 0; i<howMany; i++){
                 ArrayList<String> coordinates = model.getCoordinatesMatrix().get(i);
                 int x = Integer.parseInt(coordinates.get(0));
                 int y = Integer.parseInt(coordinates.get(1));
@@ -60,7 +63,7 @@ public class CanvasPanel extends JPanel{
                 //Drawing links
                 ArrayList<String> links = model.getNeighboursMatrix().get(i);
                 
-                for(int j = 0; j<links.size();j++){
+                for(int j = 0; j<howMany;j++){
                     if(i!=j && !links.get(j).equals("0")){
                         ArrayList<String> coordinatesTo = model.getCoordinatesMatrix().get(j);
                         int xTo = Integer.parseInt(coordinatesTo.get(0));
