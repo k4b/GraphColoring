@@ -132,6 +132,9 @@ public class Controller {
                             coordinates = loadCoordinatesMatrix(file);
                             
                             // draw graph
+                            animationTimer = null;
+                            state = AnimationState.NOT_RUNNING;
+                            view.getRunBtn().setText("Run");
                             model.setNeighboursMatrix(neighbours);
                             model.setCoordinatesMatrix(coordinates);
                             model.setCurrentColors(null);
@@ -184,11 +187,17 @@ public class Controller {
                 } else if (ae.getSource() == view.getAlgBox()){
                     algorithm = view.getAlgBox().getSelectedItem().toString();
                     CardLayout cl = (CardLayout)(view.getParamsPanel().getLayout());
-                    if(algorithm.equals("DSATUR"))
+                    if(algorithm.equals("DSATUR")) {
+                        view.getParamsPanel().removeAll();
+                        view.getParamsPanel().add(new DSATURInfoPanel(), DSATURPANEL);
                         cl.show(view.getParamsPanel(), DSATURPANEL);
+                        view.revalidate();
+                    }
                     else {
+                        view.getParamsPanel().removeAll();
                         view.getParamsPanel().add(new RLFInfoPanel(), RLFPANEL);
                         cl.show(view.getParamsPanel(), RLFPANEL);
+                        view.revalidate();
                     }
                     model.setCurrentColors(null);
                     view.drawGraph();

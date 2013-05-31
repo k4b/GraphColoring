@@ -24,6 +24,7 @@ public class CanvasPanel extends JPanel{
     private Model model;
     private double xStep, yStep;
     private double resolution = 1000.0;
+    private double nodeCentersBoundary = 800.0;
     private double diameter;
     private Graphics2D g2d;
     
@@ -76,11 +77,14 @@ public class CanvasPanel extends JPanel{
     }
     
     private void calculateValues(){
-        Dimension d = this.getSize();
-        xStep = d.getWidth()/resolution;
-        yStep = d.getHeight()/resolution;
+        double scale = nodeCentersBoundary/resolution/getHeight();
         
+//        xStep = d.getWidth()/resolution;
+//        yStep = d.getHeight()/resolution;
+        xStep = getWidth()*scale;
+        yStep = getHeight()*scale;
         diameter = xStep*60;
+        System.out.println(getSize() + " xstep=" + xStep + " ystep=" + yStep);
     }
     
     private void drawNodes(ArrayList<ArrayList<Integer>> nodesCoordinates) {
