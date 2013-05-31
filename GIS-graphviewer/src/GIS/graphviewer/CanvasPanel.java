@@ -35,7 +35,8 @@ public class CanvasPanel extends JPanel{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        calculateValues();
+        scaleResolution();
+        
         g2d = (Graphics2D)g;
         
         ArrayList<Integer> nodeCoordinates;
@@ -76,7 +77,7 @@ public class CanvasPanel extends JPanel{
         }
     }
     
-    private void calculateValues(){
+    private void scaleResolution(){
         double scale = nodeCentersBoundary/resolution/getHeight();
         
 //        xStep = d.getWidth()/resolution;
@@ -84,7 +85,7 @@ public class CanvasPanel extends JPanel{
         xStep = getWidth()*scale;
         yStep = getHeight()*scale;
         diameter = xStep*60;
-        System.out.println(getSize() + " xstep=" + xStep + " ystep=" + yStep);
+//        System.out.println(getSize() + " xstep=" + xStep + " ystep=" + yStep);
     }
     
     private void drawNodes(ArrayList<ArrayList<Integer>> nodesCoordinates) {
