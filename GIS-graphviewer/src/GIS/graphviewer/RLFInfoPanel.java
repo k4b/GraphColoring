@@ -5,7 +5,7 @@
 package GIS.graphviewer;
 
 /**
- *
+ * This class is a layout panel of RLF algorithm parametres.
  * @author Karol
  */
 public class RLFInfoPanel extends javax.swing.JPanel {
@@ -18,7 +18,8 @@ public class RLFInfoPanel extends javax.swing.JPanel {
     }
     
     /**
-     * Creates new form RLFInfoPanel
+     * Creates new form RLFInfoPanel with labels filled with RLFInfoItem parameters.
+     * @param item RLFInfoItem object with algorithm parameters.
      */
     public RLFInfoPanel(RLFInfoItem item) {
         initComponents();

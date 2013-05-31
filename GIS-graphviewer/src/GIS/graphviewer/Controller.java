@@ -19,8 +19,12 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * This class is used as a controller in this Model-View-Controller application.
+ * It responds to user input and prepares data for wiev to display.
+ * @author Karol
+ */
 public class Controller {
-    
     
         private static final String DSATURPANEL = "DSATURPANEL";
         private static final String RLFPANEL = "RLFPANEL";
@@ -46,10 +50,15 @@ public class Controller {
 		this.model = model;
 	}
 	
-	public Controller(Model m, View v)
+	/**
+     * Creates Controller object with the model and view objects to controll.
+     * @param model Data model object to work on.
+     * @param view UI view for data displaying and user input response.
+     */
+    public Controller(Model model, View view)
 	{
-		model = m;
-                view = v;
+		this.model = model;
+                this.view = view;
                 ALGORITHM[] algorithms = Coloring.ALGORITHM.values();
                 algorithm = algorithms[0].toString();
                 interval = view.getSlider().getValue();
@@ -69,7 +78,12 @@ public class Controller {
                 view.addBtnActionListener(view.getExitBtn(), listener);
 	}
 	
-	public ArrayList<ArrayList<String>> loadNeighboursMatrix(String path)
+	/**
+     * Loads graph neighbourhood matrix from specified file. Removes typo errors.
+     * @param path A path to file to read from.
+     * @return 2-dimensinal arraylist of String values read. Only digits.
+     */
+    public ArrayList<ArrayList<String>> loadNeighboursMatrix(String path)
 	{
             return FileUtility.loadFile(path);
 //		model.setNeighboursMatrix(FileUtility.loadFile(path));
@@ -77,7 +91,12 @@ public class Controller {
 //                view.log(Model.stringMatrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
         
-        public ArrayList<ArrayList<String>> loadNeighboursMatrix(File f)
+        /**
+     * Loads graph neighbourhood matrix from specified file. Removes typo errors.
+     * @param file A file to read from.
+     * @return 2-dimensinal arraylist of String values read. Only numbers.
+     */
+    public ArrayList<ArrayList<String>> loadNeighboursMatrix(File f)
 	{
             return FileUtility.loadFile(f);
 //		model.setNeighboursMatrix(FileUtility.loadFile(f));
@@ -85,7 +104,12 @@ public class Controller {
 //                view.log(Model.stringMatrixToString(model.getNeighboursMatrix())+View.LINE_END);
 	}
 	
-	public ArrayList<ArrayList<String>> loadCoordinatesMatrix(String path)
+	/**
+     * Loads graph coordinates matrix from specified file. Removes typo errors.
+     * @param path A path to file to read from.
+     * @return 2-dimensinal arraylist of String values read. Only digits.
+     */
+    public ArrayList<ArrayList<String>> loadCoordinatesMatrix(String path)
 	{
             return FileUtility.loadFile(path);
 //		model.setCoordinatesMatrix(FileUtility.loadFile(path));
@@ -93,16 +117,21 @@ public class Controller {
 //                view.log(Model.stringMatrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
-        public ArrayList<ArrayList<String>> loadCoordinatesMatrix(File f)
+        /**
+     * Loads graph coordinates matrix from specified file. Removes typo errors.
+     * @param file A file to read from.
+     * @return 2-dimensinal arraylist of String values read. Only numbers.
+     */
+    public ArrayList<ArrayList<String>> loadCoordinatesMatrix(File file)
 	{
-            return FileUtility.loadFile(f);
-//		model.setCoordinatesMatrix(FileUtility.loadFile(f));
+            return FileUtility.loadFile(file);
+//		model.setCoordinatesMatrix(FileUtility.loadFile(file));
 //                view.log("Coordinates loaded:" + View.LINE_END);
 //                view.log(Model.stringMatrixToString(model.getCoordinatesMatrix())+View.LINE_END);
 	}
         
         /**
-         * 
+         * This class is used to respond to UI events.
          */
         private class ControlsActionListener implements ActionListener, ChangeListener{
             
@@ -280,6 +309,9 @@ public class Controller {
             }
         }
         
+        /**
+         * This class is used to controll graph coloring animation.
+         */
         private class AnimationActionListener implements ActionListener {
             private int counter = 0;
 

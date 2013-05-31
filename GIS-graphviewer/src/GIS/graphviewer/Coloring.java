@@ -2,41 +2,41 @@ package GIS.graphviewer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
-import java.util.StringTokenizer;
 
+/**
+ * This class implements graph coloring algorithms. All algorithms output data 
+ * that is needed by animation to draw graph with new nodes colors and update algorithms info.
+ * @author LUKASZ
+ */
 public class Coloring
 {
-        public enum ALGORITHM { DSATUR, RLF };
+     /**
+     * Names of possible coloring algorithms
+     */
+    public enum ALGORITHM {
+            /**
+             * DSATUR algorithm
+             */
+            DSATUR,
+            /**
+             * RLF algorithm
+             */
+            RLF };
 
 	/**
-	 * @param args
+         * Implements DSATUR graph coloring algorithm. 
+         * @param neighbourhoodMatrix A neighbourhood matrix of this graph
+         * @return DSATUROutput object with animation data.
 	 */
-//	public static void main(String[] args)
-//	{
-//            int N = 9;  			 // liczba wierzchoĹ‚kow
-//            ArrayList<ArrayList<Integer>> macierzSasiedztwa = new ArrayList<ArrayList<Integer>>();
-//            ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
-//            /******************************************************************/
-//            generujMacierzSasiedztwa(macierzSasiedztwa, N);
-//            koloryWierzcholkow = DSATUR(macierzSasiedztwa).getNodeColors();
-////                koloryWierzcholkow = RLF(macierzSasiedztwa);
-//            System.out.println(macierzSasiedztwa.size());
-//            System.out.println(macierzToString(macierzSasiedztwa));
-//            System.out.println(koloryToString(koloryWierzcholkow));
-////            ALGORITHM[] a = Coloring.ALGORITHM.values();
-////            System.out.println(a[0].toString() + " " + a[1].toString());
-//	}
-        
-        public static DSATUROutput DSATUR(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
-            int N = macierzSasiedztwa.size();
+        public static DSATUROutput DSATUR(ArrayList<ArrayList<Integer>> neighbourhoodMatrix) {
+            int N = neighbourhoodMatrix.size();
             ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
             ArrayList<Integer> stopnieWierzcholkow = new ArrayList<Integer>();
             ArrayList<Integer> nasycenieWierzcholkow = new ArrayList<Integer>();
             ArrayList<Integer> koloryJednejIteracji = new ArrayList<Integer>();
             ArrayList<DSATURInfoItem> infos;
 
-            obliczStopnieWierzcholkow(macierzSasiedztwa, stopnieWierzcholkow, N);		
+            obliczStopnieWierzcholkow(neighbourhoodMatrix, stopnieWierzcholkow, N);		
 
             
             
@@ -50,7 +50,7 @@ public class Coloring
             }
             koloryWierzcholkow.add(koloryJednejIteracji);	
             
-            infos = kolorujDSATUR(N, macierzSasiedztwa, koloryWierzcholkow,
+            infos = kolorujDSATUR(N, neighbourhoodMatrix, koloryWierzcholkow,
 				stopnieWierzcholkow, nasycenieWierzcholkow);
             
             DSATUROutput dso = new DSATUROutput(koloryWierzcholkow, infos);
@@ -71,7 +71,7 @@ public class Coloring
             return s;
         }
         
-        public static String macierzToString(ArrayList<ArrayList<Integer>> m) {
+    private static String macierzToString(ArrayList<ArrayList<Integer>> m) {
             String s = "";
             int counter = 0;
             for(ArrayList<Integer> w : m){
@@ -220,8 +220,13 @@ public class Coloring
                 return infos;
 	}
 
-        public static RLFOutput RLF(ArrayList<ArrayList<Integer>> macierzSasiedztwa) {
-            int N = macierzSasiedztwa.size();
+    /**
+         * Implements RLF graph coloring algorithm. 
+         * @param neighbourhoodMatrix A neighbourhood matrix of this graph
+         * @return RLFOutput object with animation data.
+	 */
+    public static RLFOutput RLF(ArrayList<ArrayList<Integer>> neighbourhoodMatrix) {
+            int N = neighbourhoodMatrix.size();
             ArrayList<Integer> stopnieWierzcholkow = new ArrayList<Integer>();
             ArrayList<ArrayList<Integer>> koloryWierzcholkow = new ArrayList<ArrayList<Integer>>();
             ArrayList<Integer> wiersz2 = new ArrayList<Integer>();
@@ -235,8 +240,8 @@ public class Coloring
             }
             koloryWierzcholkow.add(wiersz2);
             
-            obliczStopnieWierzcholkow(macierzSasiedztwa, stopnieWierzcholkow, N);
-            RLFinfos = kolorujRLF(N, macierzSasiedztwa, koloryWierzcholkow, stopnieWierzcholkow);
+            obliczStopnieWierzcholkow(neighbourhoodMatrix, stopnieWierzcholkow, N);
+            RLFinfos = kolorujRLF(N, neighbourhoodMatrix, koloryWierzcholkow, stopnieWierzcholkow);
             System.out.println("kolory:");
             System.out.println(Model.integerMatrixToString(koloryWierzcholkow));
             System.out.println("infos:");

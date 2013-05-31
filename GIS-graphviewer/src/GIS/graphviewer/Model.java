@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A Model object of this Model-View-Controller application. Used to store all data, such as neighbourhood matrix, 
+ * coordinates matrix, colors matrix, current node colors, DSATURinfos array, RLFinfos array and used colors array.
+ * @author Karol
+ */
 public class Model {
 
 	private ArrayList<ArrayList<String>> neighboursMatrix;
@@ -16,7 +21,10 @@ public class Model {
         private ArrayList<DSATURInfoItem> DSATURinfos;
         private ArrayList<RLFInfoItem> RLFinfos;
         
-        public Model() {
+        /**
+     * Creates this model object. Creates used colors array.
+     */
+    public Model() {
             colors = new ArrayList<>();
             colors.add(Color.white);
             colors.add(Color.yellow);
@@ -30,69 +38,123 @@ public class Model {
             colors.add(Color.lightGray);
         }
 
-        public ArrayList<ArrayList<Integer>> getColorsIntegerMatrix() {
+        /**
+     * Gets colors matrix as 2-dimensional integer matrix.
+     * @return 2-dimensional integer matrix.
+     */
+    public ArrayList<ArrayList<Integer>> getColorsIntegerMatrix() {
             return colorsIntegerMatrix;
         }
 
-        public void setColorsIntegerMatrix(ArrayList<ArrayList<Integer>> colorsIntegerMatrix) {
+        /**
+     * Sets colors matrix as 2-dimensional integer matrix.
+     * @param colorsIntegerMatrix 2-dimensional integer matrix of colors.
+     */
+    public void setColorsIntegerMatrix(ArrayList<ArrayList<Integer>> colorsIntegerMatrix) {
             this.colorsIntegerMatrix = colorsIntegerMatrix;
         }
 	
-	public ArrayList<ArrayList<String>> getNeighboursMatrix() {
+	/**
+     * Gets neigbourhood matrix as 2-dimensional String matrix.
+     * @return 2-dimensional String matrix of neighbourhood.
+     */
+    public ArrayList<ArrayList<String>> getNeighboursMatrix() {
 		return neighboursMatrix;
 	}
-	public void setNeighboursMatrix(ArrayList<ArrayList<String>> neighboursMatrix) {
+	/**
+     * Sets neigbourhood matrix as 2-dimensional String matrix.
+     * @param neighboursMatrix 2-dimensional String matrix of neighbourhood.
+     */
+    public void setNeighboursMatrix(ArrayList<ArrayList<String>> neighboursMatrix) {
 		this.neighboursMatrix = correctDataMatrix(neighboursMatrix);
 	}
-	public ArrayList<ArrayList<String>> getCoordinatesMatrix() {
+	/**
+     * Gets coordinates matrix as 2-dimensional String matrix.
+     * @return 2-dimensional String matrix of coordinates.
+     */
+    public ArrayList<ArrayList<String>> getCoordinatesMatrix() {
 		return coordinatesMatrix;
 	}
-	public void setCoordinatesMatrix(ArrayList<ArrayList<String>> coordinatesMatrix) {
+	/**
+     * Sets coordinates matrix as 2-dimensional String matrix.
+     * @param coordinatesMatrix 2-dimensional String matrix of coordinates.
+     */
+    public void setCoordinatesMatrix(ArrayList<ArrayList<String>> coordinatesMatrix) {
 		this.coordinatesMatrix = correctDataMatrix(coordinatesMatrix);
 	}
-	public ArrayList<ArrayList<String>> getColorsMatrix() {
-		return colorsMatrix;
-	}
-	public void setColorsMatrix(ArrayList<ArrayList<String>> colorsMatrix) {
-		this.colorsMatrix = colorsMatrix;
-	}
-        
-        public ArrayList<Integer> getCurrentColors() {
+        /**
+     * Gets colors ArrayList for current iteration of coloring algorithm.
+     * @return ArrayList colors numbers for nodes.
+     */
+    public ArrayList<Integer> getCurrentColors() {
             return currentColors;
         }
 
-        public void setCurrentColors(ArrayList<Integer> colorsIntegerMatrix) {
+        /**
+     * Sets colors ArrayList for current iteration of coloring algorithm.
+     * @param colorsIntegerMatrix ArrayList colors numbers for nodes.
+     */
+    public void setCurrentColors(ArrayList<Integer> colorsIntegerMatrix) {
             this.currentColors = colorsIntegerMatrix;
         }
 
-        public ArrayList<Color> getColors() {
+        /**
+     * Gets ArrayList of Color objects used to coloring.
+     * @return ArrayList of Color objects used to coloring.
+     */
+    public ArrayList<Color> getColors() {
             return colors;
         }
 
-        public void setColors(ArrayList<Color> colors) {
+        /**
+     * Sets ArrayList of Color objects used to coloring.
+     * @param colors ArrayList of Color objects used to coloring.
+     */
+    public void setColors(ArrayList<Color> colors) {
             this.colors = colors;
         }
         
-        public ArrayList<DSATURInfoItem> getDSATURinfos() {
+        /**
+     * Gets ArrayList of DSATURInfoItem objects used for DSATUR coloring algorithm parameters displaying.
+     * @return ArrayList of DSATURInfoItem objects.
+     */
+    public ArrayList<DSATURInfoItem> getDSATURinfos() {
             return DSATURinfos;
         }
 
-        public void setDSATURinfos(ArrayList<DSATURInfoItem> DSATURinfos) {
+        /**
+     * Sets ArrayList of DSATURInfoItem objects used for DSATUR coloring algorithm parameters displaying.
+     * @param DSATURinfos ArrayList of DSATURInfoItem objects.
+     */
+    public void setDSATURinfos(ArrayList<DSATURInfoItem> DSATURinfos) {
             this.DSATURinfos = DSATURinfos;
         }   
         
-        public ArrayList<RLFInfoItem> getRLFinfos() {
+        /**
+     * Gets ArrayList of RLFInfoItem objects used for DSATUR coloring algorithm parameters displaying.
+     * @return ArrayList of RLFInfoItem objects.
+     */
+    public ArrayList<RLFInfoItem> getRLFinfos() {
             return RLFinfos;
         }
 
-        public void setRLFinfos(ArrayList<RLFInfoItem> RLFinfos) {
+        /**
+     * Sets ArrayList of RLFInfoItem objects used for DSATUR coloring algorithm parameters displaying.
+     * @param RLFinfos ArrayList of RLFInfoItem objects.
+     */
+    public void setRLFinfos(ArrayList<RLFInfoItem> RLFinfos) {
             this.RLFinfos = RLFinfos;
         }
 	
-	public static String stringMatrixToString(ArrayList<ArrayList<String>> g)
+	/**
+     * Converts specified 2-dimensional matrix of Strings to single String.
+     * @param matrix 2-dimensional matrix of Strings.
+     * @return 2-dimensional matrix of Strings as text.
+     */
+    public static String stringMatrixToString(ArrayList<ArrayList<String>> matrix)
 	{
                 String output = "";
-		for(ArrayList<String> row : g){
+		for(ArrayList<String> row : matrix){
 			for(String s : row){
 				output += s + " ";
 			}
@@ -101,10 +163,15 @@ public class Model {
                 return output;
 	}
         
-        public static String integerMatrixToString(ArrayList<ArrayList<Integer>> g)
+        /**
+     * Converts 2-dimensional ArrayList of Integers to text.
+     * @param matrix 2-dimensional ArrayList of Integers.
+     * @return 2-dimensional ArrayList of Integers as text.
+     */
+    public static String integerMatrixToString(ArrayList<ArrayList<Integer>> matrix)
 	{
                 String output = "";
-		for(ArrayList<Integer> row : g){
+		for(ArrayList<Integer> row : matrix){
 			for(Integer s : row){
 				output += s.toString() + " ";
 			}
@@ -113,9 +180,14 @@ public class Model {
                 return output;
 	}
         
-        public static ArrayList<ArrayList<Integer>> stringMatrixToIntegerMatrix(ArrayList<ArrayList<String>> m) {
+        /**
+     * Converts 2-dimensional ArrayList of Strings to 2-dimensional ArrayList of Integers.
+     * @param matrix 2-dimensional ArrayList of Strings.
+     * @return 2-dimensional ArrayList of Integers.
+     */
+    public static ArrayList<ArrayList<Integer>> stringMatrixToIntegerMatrix(ArrayList<ArrayList<String>> matrix) {
             ArrayList<ArrayList<Integer>> output = new ArrayList<>();
-            for(ArrayList<String> stringsRow : m) {
+            for(ArrayList<String> stringsRow : matrix) {
                 ArrayList<Integer> row = new ArrayList<>();
                 for(String s : stringsRow) {
                     Integer i = Integer.parseInt(s);
@@ -126,9 +198,14 @@ public class Model {
             return output;
         }
         
-        public static String arrayListToString(ArrayList<Integer> a) {
+        /**
+     * Converts ArrayList of Integers to text.
+     * @param arraylist ArrayList of Integers
+     * @return ArrayList of Integers as text.
+     */
+    public static String arrayListToString(ArrayList<Integer> arraylist) {
             String s = "";
-            for(Integer i : a) {
+            for(Integer i : arraylist) {
                 s += i.toString() + " ";
             }
             return s;

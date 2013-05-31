@@ -11,9 +11,18 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is used as utility to load data from files.
+ * @author Karol
+ */
 public class FileUtility {
 
-	public static ArrayList<ArrayList<String>> loadFile(String path)
+	/**
+     * Reads data from specified file.
+     * @param path Path to file.
+     * @return 2-dimensional array of data.
+     */
+    public static ArrayList<ArrayList<String>> loadFile(String path)
 	{
 		FileReader fr = null;
 		String line = "";
@@ -49,14 +58,19 @@ public class FileUtility {
 		return dataArray;
 	}
         
-        public static ArrayList<ArrayList<String>> loadFile(File f)
+        /**
+     * Reads data from specified file.
+     * @param file A file to read from.
+     * @return 2-dimensional array of data.
+     */
+    public static ArrayList<ArrayList<String>> loadFile(File file)
 	{
 		FileReader fr = null;
 		String line = "";
 		ArrayList<ArrayList<String>> dataArray = new ArrayList<>();
 		
 		try {
-			fr = new FileReader(f);
+			fr = new FileReader(file);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
@@ -97,9 +111,15 @@ public class FileUtility {
 		return tokens;
 	}
         
-        public static void saveFile(File f, String s) throws FileNotFoundException {
-            PrintWriter out = new PrintWriter(f);
-            out.println(s);
+        /**
+     * Saves text into a specified file.
+     * @param file A file to write to.
+     * @param text A text to write to file.
+     * @throws FileNotFoundException
+     */
+    public static void saveFile(File file, String text) throws FileNotFoundException {
+            PrintWriter out = new PrintWriter(file);
+            out.println(text);
             out.close();
         }
 }

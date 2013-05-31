@@ -3,10 +3,15 @@ package GIS.graphviewer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * Main class of this application. Used to create all base objects.
+ * @author Karol
+ */
 public class Main {
 
 	/**
-	 * @param args
+         * Main method of the application.
+	 * @param args application call parameters.
 	 */
 	public static void main(String[] args) {
             try {

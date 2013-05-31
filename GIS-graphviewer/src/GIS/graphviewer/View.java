@@ -17,7 +17,8 @@ import javax.swing.JPanel;
 import java.awt.CardLayout;
 
 /**
- *
+ * This class is a view in this Model-View-Controller application. It is a layout of application window. 
+ * It displayes application drawing, controls and information panels.
  * @author karol
  */
 public class View extends javax.swing.JFrame {
@@ -25,10 +26,11 @@ public class View extends javax.swing.JFrame {
     private static final String RLFPANEL = "RLFPANEL";
     JTextArea logger = new JTextArea();
     /**
-     * Creates new form View
+     * Creates new form View, with application data model to work on.
+     * @param model Application data model.
      */
-    public View(Model m) {
-        model = m;
+    public View(Model model) {
+        this.model = model;
         initComponents();
         paramsPanel.add(new DSATURInfoPanel(), DSATURPANEL);
         paramsPanel.add(new RLFInfoPanel(), RLFPANEL);
@@ -177,6 +179,7 @@ public class View extends javax.swing.JFrame {
     // End of programmer variables declaration
 
     /**
+     * Gets controls panel.
      * @return the controlsPanel
      */
     private javax.swing.JPanel getControlsPanel() {
@@ -184,6 +187,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets exit button.
      * @return the exitBtn
      */
     public javax.swing.JButton getExitBtn() {
@@ -191,6 +195,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets algorithm combobox.
      * @return the jComboBox1
      */
     public javax.swing.JComboBox getAlgBox() {
@@ -198,6 +203,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets interval slider.
      * @return the jSlider1
      */
     public javax.swing.JSlider getSlider() {
@@ -205,6 +211,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets graph loading button.
      * @return the loadGraphBtn
      */
     public javax.swing.JButton getLoadGraphBtn() {
@@ -212,6 +219,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets params panel.
      * @return the paramsPanel
      */
     public javax.swing.JPanel getParamsPanel() {
@@ -219,6 +227,7 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets run algorithm button.
      * @return the runBtn
      */
     public javax.swing.JButton getRunBtn() {
@@ -226,29 +235,49 @@ public class View extends javax.swing.JFrame {
     }
 
     /**
+     * Gets save button.
      * @return the showBtn
      */
     public javax.swing.JButton getSaveBtn() {
         return saveBtn;
     }
 
-    public void addBtnActionListener(JButton btn, ActionListener al){
-        btn.addActionListener(al);
+    /**
+     * Adds ActionListener to specified Button.
+     * @param button
+     * @param actionlistener
+     */
+    public void addBtnActionListener(JButton button, ActionListener actionlistener){
+        button.addActionListener(actionlistener);
     }
     
-    public void addAlgBoxActionListener(ActionListener al){
-        algBox.addActionListener(al);
+    /**
+     * Adds ActionListener to algorithm combobox.
+     * @param actionlistener
+     */
+    public void addAlgBoxActionListener(ActionListener actionlistener){
+        algBox.addActionListener(actionlistener);
     }
     
-    public void addSliderChangeListener(ChangeListener cl){
-        slider.addChangeListener(cl);
+    /**
+     * Adds ChangeListener to interval slider.
+     * @param changelistener
+     */
+    public void addSliderChangeListener(ChangeListener changelistener){
+        slider.addChangeListener(changelistener);
     }
     
+    /**
+     * Closes application window.
+     */
     public void closeWindow(){
         WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
     }
     
+    /**
+     * Draws graph in drawing area. If colors matrix present, uses colors from data model.
+     */
     public void drawGraph(){
         canvasPanel.repaint();
     }

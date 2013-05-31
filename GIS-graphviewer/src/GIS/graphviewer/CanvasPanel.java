@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
- *
+ * Implementation of JPanel used to draw graphs on it. Drawing algoritm is 
+ * built-in paintComponent() method. Scales its size to fit nodes with coordinates from 0-999 range.
  * @author karol
  */
 public class CanvasPanel extends JPanel{
@@ -28,10 +29,18 @@ public class CanvasPanel extends JPanel{
     private double diameter;
     private Graphics2D g2d;
     
-    public CanvasPanel(Model m){
-        model = m;
+    /**
+     * Constructs this CanvasPanel. 
+     * @param model Data model of this app
+     */
+    public CanvasPanel(Model model){
+        this.model = model;
     }
-    
+    /**
+     * Overrides common paintComponent() method for JPanel. Implements algorithm 
+     * for graph drawing based on data model of this app.
+     * @param g Graphis object used to drawing
+     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

@@ -7,7 +7,7 @@ package GIS.graphviewer;
 import javax.swing.JLabel;
 
 /**
- *
+ * This class is a layout panel of DSATUR algorithm parametres.
  * @author Karol
  */
 public class DSATURInfoPanel extends javax.swing.JPanel {
@@ -20,7 +20,8 @@ public class DSATURInfoPanel extends javax.swing.JPanel {
     }
     
     /**
-     * Creates new form DSATURInfoPanel
+     * Creates new form DSATURInfoPanel with labels filled with DSATURInfoItem parameters.
+     * @param item DSATURInfoItem object containing DSATUR coloring algorithm parameters from one iteration.
      */
     public DSATURInfoPanel(DSATURInfoItem item) {
         initComponents();

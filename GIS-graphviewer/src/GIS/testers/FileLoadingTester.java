@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import GIS.graphviewer.FileUtility;
 
+/**
+ *
+ * @author Karol
+ */
 public class FileLoadingTester {
 
 	/**
@@ -36,7 +40,11 @@ public class FileLoadingTester {
 		
 	}
 	
-	public static void printDataMatrix(ArrayList<ArrayList<String>> g)
+	/**
+     *
+     * @param g
+     */
+    public static void printDataMatrix(ArrayList<ArrayList<String>> g)
 	{
 		for(ArrayList<String> row : g){
 			for(String s : row){
